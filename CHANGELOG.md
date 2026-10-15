@@ -3,6 +3,11 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.1.2
+
+- The free plugin is called **DigiFalk Mafia PBBG Engine** in its plugin header and readme,
+  as asked by the WordPress.org plugin review.
+
 ## 2.1.1
 
 - With the Mafia PBBG Engine theme the game shows no second light/dark switch when the

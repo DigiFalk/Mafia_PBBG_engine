@@ -51,7 +51,7 @@ if ( $c->timer_active( 'murder' ) ) {
 						<td>
 							<?php echo $this->form( 'shoot', array( 'report' => $dfmg_r['id'] ), 'dfmg-inline-form' ); // phpcs:ignore ?>
 								<input type="number" name="bullets" min="1" max="<?php echo esc_attr( (string) $c->bullets ); ?>" placeholder="<?php esc_attr_e( 'Bullets', 'mafia-pbbg-engine' ); ?>" required>
-								<button type="submit" class="dfmg-button dfmg-button--danger" onclick="return confirm('<?php echo esc_js( __( 'Are you sure?', 'mafia-pbbg-engine' ) ); ?>');"><?php esc_html_e( 'Shoot', 'mafia-pbbg-engine' ); ?></button>
+								<button type="submit" class="dfmg-button dfmg-button--danger" data-dfmg-confirm="<?php esc_attr_e( 'Are you sure?', 'mafia-pbbg-engine' ); ?>"><?php esc_html_e( 'Shoot', 'mafia-pbbg-engine' ); ?></button>
 							</form>
 						</td>
 					</tr>

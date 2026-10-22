@@ -277,16 +277,16 @@ final class Registry {
 	public function enable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'mafia-pbbg-engine' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		if ( ! $this->runnable( $id ) ) {
-			return new \WP_Error( 'module', __( 'This premium module needs Mafia PBBG Engine Extended and an active license. Enter your license key on the Modules screen.', 'mafia-pbbg-engine' ) );
+			return new \WP_Error( 'module', __( 'This premium module needs Mafia PBBG Engine Extended and an active license. Enter your license key on the Modules screen.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {
 			if ( ! in_array( $dep, $enabled, true ) ) {
 				/* translators: 1: module, 2: required module */
-				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'mafia-pbbg-engine' ), $info['name'], $dep ) );
+				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'digifalk-mafia-pbbg-engine' ), $info['name'], $dep ) );
 			}
 		}
 		$module = $this->load( $id );
@@ -295,9 +295,9 @@ final class Registry {
 			return new \WP_Error(
 				'module',
 				'' === $error
-					? __( 'Module could not be loaded.', 'mafia-pbbg-engine' )
+					? __( 'Module could not be loaded.', 'digifalk-mafia-pbbg-engine' )
 					/* translators: %s: error message */
-					: sprintf( __( 'Module could not be loaded. It may be made for another version of Mafia PBBG Engine; update the module. Error: %s', 'mafia-pbbg-engine' ), $error )
+					: sprintf( __( 'Module could not be loaded. It may be made for another version of Mafia PBBG Engine; update the module. Error: %s', 'digifalk-mafia-pbbg-engine' ), $error )
 			);
 		}
 		$this->install( $module );
@@ -315,16 +315,16 @@ final class Registry {
 	public function disable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'mafia-pbbg-engine' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		if ( $info['required'] ) {
-			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'mafia-pbbg-engine' ) );
+			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $enabled as $other ) {
 			if ( in_array( $id, $this->info( $other )['requires'], true ) ) {
 				/* translators: %s: module name */
-				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'mafia-pbbg-engine' ), $this->info( $other )['name'] ) );
+				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'digifalk-mafia-pbbg-engine' ), $this->info( $other )['name'] ) );
 			}
 		}
 		update_option( self::OPTION_ENABLED, array_values( array_diff( $enabled, array( $id ) ) ) );

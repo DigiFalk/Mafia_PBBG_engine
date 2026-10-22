@@ -29,13 +29,7 @@ function mpet_is_game_page(): bool {
 	if ( $id && (int) get_option( 'dfmg_page_id' ) === $id ) {
 		return true;
 	}
-	$content = (string) get_post_field( 'post_content', $id );
-	foreach ( array( 'mafia_pbbg_engine', 'mafia_game', 'maffia_game' ) as $tag ) {
-		if ( has_shortcode( $content, $tag ) ) {
-			return true;
-		}
-	}
-	return false;
+	return has_shortcode( (string) get_post_field( 'post_content', $id ), 'mafia_pbbg_engine' );
 }
 
 function mpet_page_template(): string {

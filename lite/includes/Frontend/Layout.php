@@ -24,15 +24,15 @@ final class Layout {
 	 */
 	public static function zones(): array {
 		return array(
-			'header-left'   => array( __( 'Header left', 'mafia-pbbg-engine' ), 'bar' ),
-			'header-center' => array( __( 'Header center', 'mafia-pbbg-engine' ), 'bar' ),
-			'header-right'  => array( __( 'Header right', 'mafia-pbbg-engine' ), 'bar' ),
-			'sidebar'       => array( __( 'Sidebar', 'mafia-pbbg-engine' ), 'stack' ),
-			'top'           => array( __( 'Above the content', 'mafia-pbbg-engine' ), 'bar' ),
-			'bottom'        => array( __( 'Below the content', 'mafia-pbbg-engine' ), 'bar' ),
-			'footer-left'   => array( __( 'Footer left', 'mafia-pbbg-engine' ), 'bar' ),
-			'footer-center' => array( __( 'Footer center', 'mafia-pbbg-engine' ), 'bar' ),
-			'footer-right'  => array( __( 'Footer right', 'mafia-pbbg-engine' ), 'bar' ),
+			'header-left'   => array( __( 'Header left', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'header-center' => array( __( 'Header center', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'header-right'  => array( __( 'Header right', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'sidebar'       => array( __( 'Sidebar', 'digifalk-mafia-pbbg-engine' ), 'stack' ),
+			'top'           => array( __( 'Above the content', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'bottom'        => array( __( 'Below the content', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'footer-left'   => array( __( 'Footer left', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'footer-center' => array( __( 'Footer center', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
+			'footer-right'  => array( __( 'Footer right', 'digifalk-mafia-pbbg-engine' ), 'bar' ),
 		);
 	}
 
@@ -109,8 +109,8 @@ final class Layout {
 		$wp_customize->add_section(
 			'dfmg_game_layout',
 			array(
-				'title'       => __( 'Game layout', 'mafia-pbbg-engine' ),
-				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [mpe_hud element="cash"] shortcode.', 'mafia-pbbg-engine' ),
+				'title'       => __( 'Game layout', 'digifalk-mafia-pbbg-engine' ),
+				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [mpe_hud element="cash"] shortcode.', 'digifalk-mafia-pbbg-engine' ),
 				'priority'    => 25,
 				'capability'  => 'manage_options',
 			)
@@ -130,7 +130,7 @@ final class Layout {
 				$wp_customize,
 				self::OPTION,
 				array(
-					'label'   => __( 'Game layout', 'mafia-pbbg-engine' ),
+					'label'   => __( 'Game layout', 'digifalk-mafia-pbbg-engine' ),
 					'section' => 'dfmg_game_layout',
 				)
 			)
@@ -165,15 +165,15 @@ final class Layout {
 				'defaults' => self::defaults(),
 				'gameUrl'  => Game::page_url(),
 				'i18n'     => array(
-					'available' => __( 'Available elements – drag them into a zone', 'mafia-pbbg-engine' ),
-					'add'       => __( 'Add element', 'mafia-pbbg-engine' ),
-					'remove'    => __( 'Remove', 'mafia-pbbg-engine' ),
-					'reset'     => __( 'Reset to default', 'mafia-pbbg-engine' ),
-					'header'    => __( 'Header', 'mafia-pbbg-engine' ),
-					'content'   => __( 'Game page', 'mafia-pbbg-engine' ),
-					'footer'    => __( 'Footer', 'mafia-pbbg-engine' ),
-					'page'      => __( 'Page content', 'mafia-pbbg-engine' ),
-					'title'     => __( 'Game layout', 'mafia-pbbg-engine' ),
+					'available' => __( 'Available elements – drag them into a zone', 'digifalk-mafia-pbbg-engine' ),
+					'add'       => __( 'Add element', 'digifalk-mafia-pbbg-engine' ),
+					'remove'    => __( 'Remove', 'digifalk-mafia-pbbg-engine' ),
+					'reset'     => __( 'Reset to default', 'digifalk-mafia-pbbg-engine' ),
+					'header'    => __( 'Header', 'digifalk-mafia-pbbg-engine' ),
+					'content'   => __( 'Game page', 'digifalk-mafia-pbbg-engine' ),
+					'footer'    => __( 'Footer', 'digifalk-mafia-pbbg-engine' ),
+					'page'      => __( 'Page content', 'digifalk-mafia-pbbg-engine' ),
+					'title'     => __( 'Game layout', 'digifalk-mafia-pbbg-engine' ),
 				),
 			)
 		);

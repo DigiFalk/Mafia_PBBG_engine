@@ -22,7 +22,7 @@ final class News extends Module {
 	const POST_TYPE = 'dfmg_news';
 
 	public function title(): string {
-		return __( 'News', 'mafia-pbbg-engine' );
+		return __( 'News', 'digifalk-mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -43,10 +43,10 @@ final class News extends Module {
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'          => __( 'Game news', 'mafia-pbbg-engine' ),
-					'singular_name' => __( 'News item', 'mafia-pbbg-engine' ),
-					'add_new_item'  => __( 'New news item', 'mafia-pbbg-engine' ),
-					'edit_item'     => __( 'Edit news item', 'mafia-pbbg-engine' ),
+					'name'          => __( 'Game news', 'digifalk-mafia-pbbg-engine' ),
+					'singular_name' => __( 'News item', 'digifalk-mafia-pbbg-engine' ),
+					'add_new_item'  => __( 'New news item', 'digifalk-mafia-pbbg-engine' ),
+					'edit_item'     => __( 'Edit news item', 'digifalk-mafia-pbbg-engine' ),
 				),
 				'public'       => false,
 				'show_ui'      => true,
@@ -61,7 +61,7 @@ final class News extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'News', 'mafia-pbbg-engine' ),
+				'label' => __( 'News', 'digifalk-mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 5,
 			),
@@ -80,19 +80,22 @@ final class News extends Module {
 
 	private function markup( array $posts, bool $full ): string {
 		if ( ! $posts ) {
-			return UI::empty_state( __( 'No news yet.', 'mafia-pbbg-engine' ) );
+			return UI::empty_state( __( 'No news yet.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		$html = '';
 		foreach ( $posts as $post ) {
+			$body  = $full
+				? apply_filters( 'the_content', $post->post_content ) // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- the WordPress core filter for post content.
+				: wpautop( wp_trim_words( $post->post_content, 40 ) );
 			$html .= '<article class="dfmg-card dfmg-news"><h3>' . esc_html( get_the_title( $post ) ) . '</h3>'
 				. '<p class="dfmg-muted">' . esc_html( Format::date( (int) get_post_time( 'U', true, $post ) ) ) . '</p>'
-				. '<div class="dfmg-usertext">' . ( $full ? apply_filters( 'the_content', $post->post_content ) : wp_kses_post( wpautop( wp_trim_words( $post->post_content, 40 ) ) ) ) . '</div></article>'; // phpcs:ignore
+				. '<div class="dfmg-usertext">' . wp_kses_post( $body ) . '</div></article>';
 		}
 		return $html;
 	}
 
 	public function login_news(): void {
-		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'mafia-pbbg-engine' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
+		echo wp_kses( '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'digifalk-mafia-pbbg-engine' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>', dfmg_allowed_html() );
 	}
 
 	public function render( Character $c, array $query ): string {

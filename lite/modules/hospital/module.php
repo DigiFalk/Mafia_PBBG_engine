@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 final class Hospital extends Module {
 
 	public function title(): string {
-		return __( 'Hospital', 'mafia-pbbg-engine' );
+		return __( 'Hospital', 'digifalk-mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_hospital(): bool {
@@ -48,12 +48,12 @@ final class Hospital extends Module {
 	public function settings_fields(): array {
 		return array(
 			'hospital_full_cost' => array(
-				'label'   => __( 'Cost of a full recovery', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Cost of a full recovery', 'digifalk-mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 25000,
 			),
 			'hospital_full_time' => array(
-				'label'   => __( 'Admission time for a full recovery (sec)', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Admission time for a full recovery (sec)', 'digifalk-mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 3600,
 			),
@@ -63,7 +63,7 @@ final class Hospital extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Hospital', 'mafia-pbbg-engine' ),
+				'label' => __( 'Hospital', 'digifalk-mafia-pbbg-engine' ),
 				'group' => 'city',
 				'order' => 30,
 				'timer' => 'hospital',
@@ -100,23 +100,23 @@ final class Hospital extends Module {
 
 	public function action_admit( Character $c, array $input ): void {
 		if ( $c->is_hospitalized() ) {
-			$this->error( __( 'You are already in hospital.', 'mafia-pbbg-engine' ) );
+			$this->error( __( 'You are already in hospital.', 'digifalk-mafia-pbbg-engine' ) );
 			return;
 		}
 		$quote = $this->quote( $c );
 		if ( ! (int) $c->damage ) {
-			$this->error( __( 'You are perfectly healthy.', 'mafia-pbbg-engine' ) );
+			$this->error( __( 'You are perfectly healthy.', 'digifalk-mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $quote['cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'The treatment costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $quote['cost'] ) ) );
+			$this->error( sprintf( __( 'The treatment costs %s. You don\'t have that in cash.', 'digifalk-mafia-pbbg-engine' ), Format::money( $quote['cost'] ) ) );
 			return;
 		}
 		$c->set( 'damage', 0 );
 		$c->set_timer( 'hospital', time() + $quote['time'] );
 		$c->log( 'hospital', true, $quote['cost'] );
-		$this->success( __( 'You have been admitted. The doctors are doing their job.', 'mafia-pbbg-engine' ) );
+		$this->success( __( 'You have been admitted. The doctors are doing their job.', 'digifalk-mafia-pbbg-engine' ) );
 	}
 }
 

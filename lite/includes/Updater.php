@@ -177,7 +177,7 @@ final class Updater {
 			'last_updated'  => $release['published'],
 			'download_link' => $release['package'],
 			'sections'      => array(
-				'description' => esc_html__( 'A complete, modular mafia browser game (PBBG) for WordPress.', 'mafia-pbbg-engine' ),
+				'description' => esc_html__( 'A complete, modular mafia browser game (PBBG) for WordPress.', 'digifalk-mafia-pbbg-engine' ),
 				'changelog'   => self::markdown( $release['notes'] ),
 			),
 		);
@@ -229,7 +229,7 @@ final class Updater {
 		if ( $wp_filesystem && $wp_filesystem->move( $source, $wanted, true ) ) {
 			return $wanted;
 		}
-		return new \WP_Error( 'dfmg_update_folder', __( 'The update could not be unpacked into the plugin folder.', 'mafia-pbbg-engine' ) );
+		return new \WP_Error( 'dfmg_update_folder', __( 'The update could not be unpacked into the plugin folder.', 'digifalk-mafia-pbbg-engine' ) );
 	}
 
 	/**
@@ -253,7 +253,7 @@ final class Updater {
 
 	public static function action_link( array $links ): array {
 		if ( current_user_can( 'update_plugins' ) ) {
-			$links[] = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_check_updates' ), 'dfmg_check_updates' ) ) . '">' . esc_html__( 'Check for updates', 'mafia-pbbg-engine' ) . '</a>';
+			$links[] = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_check_updates' ), 'dfmg_check_updates' ) ) . '">' . esc_html__( 'Check for updates', 'digifalk-mafia-pbbg-engine' ) . '</a>';
 		}
 		return $links;
 	}
@@ -263,7 +263,7 @@ final class Updater {
 	 */
 	public static function force_check(): void {
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_check_updates' );
 		self::flush();

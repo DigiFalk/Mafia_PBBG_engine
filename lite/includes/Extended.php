@@ -37,6 +37,6 @@ final class Extended {
 			return Bridge::button();
 		}
 		return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( self::url() ) . '" target="_blank" rel="noopener">'
-			. esc_html__( 'Get Extended (free)', 'mafia-pbbg-engine' ) . ' ' . Icons::svg( 'external', 14 ) . '</a>';
+			. esc_html__( 'Get Extended (free)', 'digifalk-mafia-pbbg-engine' ) . ' ' . Icons::svg( 'external', 14 ) . '</a>';
 	}
 }

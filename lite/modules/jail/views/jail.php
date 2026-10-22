@@ -13,28 +13,28 @@ use DigiFalk\MafiaPBBGEngine\Frontend\UI;
 defined( 'ABSPATH' ) || exit;
 
 if ( $c->is_jailed() ) {
-	echo UI::cooldown( $c->is_in_supermax() ? __( 'You are in solitary confinement. Free in', 'mafia-pbbg-engine' ) : __( 'You are in jail. Free in', 'mafia-pbbg-engine' ), $c->timer( 'jail' ) ); // phpcs:ignore
+	echo wp_kses( UI::cooldown( $c->is_in_supermax() ? __( 'You are in solitary confinement. Free in', 'digifalk-mafia-pbbg-engine' ) : __( 'You are in jail. Free in', 'digifalk-mafia-pbbg-engine' ), $c->timer( 'jail' ) ), dfmg_allowed_html() );
 	if ( $bail ) {
-		echo '<p>' . $this->button( 'bail', sprintf( /* translators: %s: money */ __( 'Pay bail (%s)', 'mafia-pbbg-engine' ), Format::money( $bail ) ) ) . '</p>'; // phpcs:ignore
+		echo wp_kses( '<p>' . $this->button( 'bail', sprintf( /* translators: %s: money */ __( 'Pay bail (%s)', 'digifalk-mafia-pbbg-engine' ), Format::money( $bail ) ) ) . '</p>', dfmg_allowed_html() );
 	}
 }
 ?>
 <h3>
 	<?php
 	/* translators: %s: city */
-	printf( esc_html__( 'Inmates in %s', 'mafia-pbbg-engine' ), esc_html( $c->location_name() ) );
+	printf( esc_html__( 'Inmates in %s', 'digifalk-mafia-pbbg-engine' ), esc_html( $c->location_name() ) );
 	?>
 </h3>
 <?php if ( ! $inmates ) : ?>
-	<?php echo UI::empty_state( __( 'The cells are empty.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
+	<?php echo wp_kses( UI::empty_state( __( 'The cells are empty.', 'digifalk-mafia-pbbg-engine' ) ), dfmg_allowed_html() ); ?>
 <?php else : ?>
 	<table class="dfmg-table">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Inmate', 'mafia-pbbg-engine' ); ?></th>
-				<th><?php esc_html_e( 'Rank', 'mafia-pbbg-engine' ); ?></th>
-				<th><?php esc_html_e( 'Free in', 'mafia-pbbg-engine' ); ?></th>
-				<th><?php esc_html_e( 'Chance', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Inmate', 'digifalk-mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Rank', 'digifalk-mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Free in', 'digifalk-mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Chance', 'digifalk-mafia-pbbg-engine' ); ?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -42,13 +42,13 @@ if ( $c->is_jailed() ) {
 			<?php foreach ( $inmates as $dfmg_row ) : ?>
 				<?php $dfmg_inmate = $dfmg_row['character']; ?>
 				<tr>
-					<td><?php echo $dfmg_inmate->link(); // phpcs:ignore ?><?php echo $dfmg_row['supermax'] ? ' <em class="dfmg-tag">' . esc_html__( 'solitary', 'mafia-pbbg-engine' ) . '</em>' : ''; ?></td>
+					<td><?php echo wp_kses( $dfmg_inmate->link(), dfmg_allowed_html() ); ?><?php echo $dfmg_row['supermax'] ? ' <em class="dfmg-tag">' . esc_html__( 'solitary', 'digifalk-mafia-pbbg-engine' ) . '</em>' : ''; ?></td>
 					<td><?php echo esc_html( $dfmg_inmate->rank_name() ); ?></td>
-					<td><?php echo Format::countdown( $dfmg_inmate->timer( 'jail' ) ); // phpcs:ignore ?></td>
+					<td><?php echo wp_kses( Format::countdown( $dfmg_inmate->timer( 'jail' ) ), dfmg_allowed_html() ); ?></td>
 					<td><?php echo esc_html( $dfmg_row['chance'] . '%' ); ?></td>
 					<td>
 						<?php if ( $dfmg_row['chance'] ) : ?>
-							<?php echo $this->button( 'bust', $dfmg_inmate->id() === $c->id() ? __( 'Escape', 'mafia-pbbg-engine' ) : __( 'Break out', 'mafia-pbbg-engine' ), array( 'target' => $dfmg_inmate->id() ) ); // phpcs:ignore ?>
+							<?php echo wp_kses( $this->button( 'bust', $dfmg_inmate->id() === $c->id() ? __( 'Escape', 'digifalk-mafia-pbbg-engine' ) : __( 'Break out', 'digifalk-mafia-pbbg-engine' ), array( 'target' => $dfmg_inmate->id() ) ), dfmg_allowed_html() ); ?>
 						<?php endif; ?>
 					</td>
 				</tr>

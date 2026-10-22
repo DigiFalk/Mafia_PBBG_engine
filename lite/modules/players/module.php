@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 final class Players extends Module {
 
 	public function title(): string {
-		return __( 'Players', 'mafia-pbbg-engine' );
+		return __( 'Players', 'digifalk-mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Players extends Module {
 		$online = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND last_active > %d', time() - 60 * Settings::int( 'online_minutes', 15 ) );
 		return array(
 			array(
-				'label' => __( 'Players', 'mafia-pbbg-engine' ),
+				'label' => __( 'Players', 'digifalk-mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 20,
 				'badge' => $online ?: '',
@@ -46,11 +46,11 @@ final class Players extends Module {
 
 	private function table( array $ids, bool $with_location = false ): string {
 		if ( ! $ids ) {
-			return UI::empty_state( __( 'Nobody found.', 'mafia-pbbg-engine' ) );
+			return UI::empty_state( __( 'Nobody found.', 'digifalk-mafia-pbbg-engine' ) );
 		}
-		$html = '<table class="dfmg-table"><thead><tr><th>' . esc_html__( 'Name', 'mafia-pbbg-engine' ) . '</th><th>' . esc_html__( 'Rank', 'mafia-pbbg-engine' ) . '</th>';
+		$html = '<table class="dfmg-table"><thead><tr><th>' . esc_html__( 'Name', 'digifalk-mafia-pbbg-engine' ) . '</th><th>' . esc_html__( 'Rank', 'digifalk-mafia-pbbg-engine' ) . '</th>';
 		if ( $with_location ) {
-			$html .= '<th>' . esc_html__( 'Status', 'mafia-pbbg-engine' ) . '</th>';
+			$html .= '<th>' . esc_html__( 'Status', 'digifalk-mafia-pbbg-engine' ) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		foreach ( $ids as $id ) {
@@ -60,7 +60,7 @@ final class Players extends Module {
 			}
 			$html .= '<tr><td>' . $p->link() . '</td><td>' . esc_html( $p->rank_name() ) . '</td>';
 			if ( $with_location ) {
-				$html .= '<td>' . ( $p->is_alive() ? ( $p->is_online() ? '<span class="dfmg-online">' . esc_html__( 'online', 'mafia-pbbg-engine' ) . '</span>' : esc_html__( 'offline', 'mafia-pbbg-engine' ) ) : '<span class="dfmg-dead">' . esc_html__( 'murdered', 'mafia-pbbg-engine' ) . '</span>' ) . '</td>';
+				$html .= '<td>' . ( $p->is_alive() ? ( $p->is_online() ? '<span class="dfmg-online">' . esc_html__( 'online', 'digifalk-mafia-pbbg-engine' ) . '</span>' : esc_html__( 'offline', 'digifalk-mafia-pbbg-engine' ) ) : '<span class="dfmg-dead">' . esc_html__( 'murdered', 'digifalk-mafia-pbbg-engine' ) . '</span>' ) . '</td>';
 			}
 			$html .= '</tr>';
 		}
@@ -74,19 +74,19 @@ final class Players extends Module {
 		foreach ( wp_parse_args( (string) wp_parse_url( $this->url(), PHP_URL_QUERY ) ) as $key => $value ) {
 			$html .= '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '">';
 		}
-		$html .= '<input type="search" name="q" value="' . esc_attr( $q ) . '" placeholder="' . esc_attr__( 'Search for a player…', 'mafia-pbbg-engine' ) . '">';
-		$html .= '<button type="submit" class="dfmg-button">' . esc_html__( 'Search', 'mafia-pbbg-engine' ) . '</button></form>';
+		$html .= '<input type="search" name="q" value="' . esc_attr( $q ) . '" placeholder="' . esc_attr__( 'Search for a player…', 'digifalk-mafia-pbbg-engine' ) . '">';
+		$html .= '<button type="submit" class="dfmg-button">' . esc_html__( 'Search', 'digifalk-mafia-pbbg-engine' ) . '</button></form>';
 
 		if ( '' !== $q ) {
 			$ids   = DB::column( 'SELECT id FROM {characters} WHERE name LIKE %s ORDER BY status DESC, name ASC LIMIT 50', '%' . DB::wpdb()->esc_like( $q ) . '%' );
-			$html .= '<h3>' . esc_html__( 'Search results', 'mafia-pbbg-engine' ) . '</h3>' . $this->table( $ids, true );
+			$html .= '<h3>' . esc_html__( 'Search results', 'digifalk-mafia-pbbg-engine' ) . '</h3>' . $this->table( $ids, true );
 		}
 
 		$online = DB::column(
 			'SELECT id FROM {characters} WHERE status = 1 AND last_active > %d ORDER BY last_active DESC LIMIT 200',
 			time() - 60 * Settings::int( 'online_minutes', 15 )
 		);
-		$html  .= '<h3>' . esc_html__( 'Online now', 'mafia-pbbg-engine' ) . ' (' . count( $online ) . ')</h3>' . $this->table( $online );
+		$html  .= '<h3>' . esc_html__( 'Online now', 'digifalk-mafia-pbbg-engine' ) . ' (' . count( $online ) . ')</h3>' . $this->table( $online );
 		return $html;
 	}
 }

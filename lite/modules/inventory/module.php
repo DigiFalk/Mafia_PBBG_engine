@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 final class Inventory extends Module {
 
 	public function title(): string {
-		return __( 'Inventory', 'mafia-pbbg-engine' );
+		return __( 'Inventory', 'digifalk-mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -34,7 +34,7 @@ final class Inventory extends Module {
 	public function settings_fields(): array {
 		return array(
 			'inventory_sell_percent' => array(
-				'label'   => __( 'Item resale value (% of price)', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Item resale value (% of price)', 'digifalk-mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 40,
 			),
@@ -44,7 +44,7 @@ final class Inventory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Inventory', 'mafia-pbbg-engine' ),
+				'label' => __( 'Inventory', 'digifalk-mafia-pbbg-engine' ),
 				'group' => 'money',
 				'order' => 20,
 			),
@@ -76,18 +76,18 @@ final class Inventory extends Module {
 				break;
 			}
 		}
-		$result = $slot ? Items::equip( $c, (int) $item['id'], $slot ) : new \WP_Error( 'slot', __( 'You can\'t equip this item.', 'mafia-pbbg-engine' ) );
+		$result = $slot ? Items::equip( $c, (int) $item['id'], $slot ) : new \WP_Error( 'slot', __( 'You can\'t equip this item.', 'digifalk-mafia-pbbg-engine' ) );
 		if ( is_wp_error( $result ) ) {
 			$this->error( $result->get_error_message() );
 			return;
 		}
 		/* translators: %s: item */
-		$this->success( sprintf( __( 'You equipped %s.', 'mafia-pbbg-engine' ), $item['name'] ) );
+		$this->success( sprintf( __( 'You equipped %s.', 'digifalk-mafia-pbbg-engine' ), $item['name'] ) );
 	}
 
 	public function action_unequip( Character $c, array $input ): void {
 		if ( Items::unequip( $c, sanitize_key( $input['slot'] ?? '' ) ) ) {
-			$this->success( __( 'Item returned to your inventory.', 'mafia-pbbg-engine' ) );
+			$this->success( __( 'Item returned to your inventory.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 	}
 
@@ -98,20 +98,20 @@ final class Inventory extends Module {
 			$this->error( $result->get_error_message() );
 		} elseif ( $result ) {
 			/* translators: %s: item */
-			$this->success( sprintf( __( 'You used %s.', 'mafia-pbbg-engine' ), $item['name'] ) );
+			$this->success( sprintf( __( 'You used %s.', 'digifalk-mafia-pbbg-engine' ), $item['name'] ) );
 		}
 	}
 
 	public function action_sell( Character $c, array $input ): void {
 		$item = Items::get( absint( $input['item'] ?? 0 ) );
 		if ( ! $item || ! Items::take( $c, (int) $item['id'] ) ) {
-			$this->error( __( 'You don\'t have this item.', 'mafia-pbbg-engine' ) );
+			$this->error( __( 'You don\'t have this item.', 'digifalk-mafia-pbbg-engine' ) );
 			return;
 		}
 		$value = (int) floor( (int) $item['price'] * (int) $this->setting( 'inventory_sell_percent' ) / 100 );
 		$c->add( 'money', $value );
 		/* translators: 1: item, 2: money */
-		$this->success( sprintf( __( 'You sold %1$s for %2$s.', 'mafia-pbbg-engine' ), $item['name'], Format::money( $value ) ) );
+		$this->success( sprintf( __( 'You sold %1$s for %2$s.', 'digifalk-mafia-pbbg-engine' ), $item['name'], Format::money( $value ) ) );
 	}
 }
 

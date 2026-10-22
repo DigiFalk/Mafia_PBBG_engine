@@ -61,7 +61,7 @@ jobs:
           cd build
           zip -rq mafia-pbbg-engine.zip mafia-pbbg-engine
           zip -rq mafia-pbbg-engine-extended.zip mafia-pbbg-engine-extended
-          (cd wordpress-org && zip -rq ../mafia-pbbg-engine-wordpress-org.zip mafia-pbbg-engine)
+          (cd wordpress-org && zip -rq ../mafia-pbbg-engine-wordpress-org.zip digifalk-mafia-pbbg-engine)
 
       - name: Release notes
         if: steps.version.outputs.exists == 'false'

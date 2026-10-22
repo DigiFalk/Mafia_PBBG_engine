@@ -50,7 +50,7 @@ final class Credit {
 		}
 		return '<div class="dfmg-footer__credit">' . sprintf(
 			/* translators: 1: game name, 2: link to DigiFalk */
-			esc_html__( '%1$s by %2$s', 'mafia-pbbg-engine' ),
+			esc_html__( '%1$s by %2$s', 'digifalk-mafia-pbbg-engine' ),
 			'Mafia PBBG Engine',
 			'<a href="' . esc_url( self::URL ) . '" target="_blank" rel="noopener">DigiFalk</a>'
 		) . '</div>';

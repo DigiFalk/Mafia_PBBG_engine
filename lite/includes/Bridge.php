@@ -60,10 +60,10 @@ final class Bridge {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			$package = self::package();
 			if ( '' === $package ) {
-				return new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be found on GitHub. Try again later.', 'mafia-pbbg-engine' ) );
+				return new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be found on GitHub. Try again later.', 'digifalk-mafia-pbbg-engine' ) );
 			}
 			if ( 'direct' !== get_filesystem_method() || ! WP_Filesystem() ) {
-				return new \WP_Error( 'dfmg_extended', __( 'WordPress may not write to the plugins folder on this site. Install Mafia PBBG Engine Extended yourself: Plugins → Add New → Upload Plugin.', 'mafia-pbbg-engine' ) );
+				return new \WP_Error( 'dfmg_extended', __( 'WordPress may not write to the plugins folder on this site. Install Mafia PBBG Engine Extended yourself: Plugins → Add New → Upload Plugin.', 'digifalk-mafia-pbbg-engine' ) );
 			}
 			$skin     = new \WP_Ajax_Upgrader_Skin();
 			$upgrader = new \Plugin_Upgrader( $skin );
@@ -73,7 +73,7 @@ final class Bridge {
 			}
 			if ( ! $result || ! self::installed() ) {
 				$errors = $skin->get_errors();
-				return $errors->has_errors() ? $errors : new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be installed.', 'mafia-pbbg-engine' ) );
+				return $errors->has_errors() ? $errors : new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be installed.', 'digifalk-mafia-pbbg-engine' ) );
 			}
 		}
 		$activated = activate_plugin( self::PLUGIN );
@@ -88,26 +88,26 @@ final class Bridge {
 	 */
 	public static function button(): string {
 		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {
-			return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( 'https://github.com/' . Updater::repo() . '/releases/latest' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Download Extended', 'mafia-pbbg-engine' ) . '</a>';
+			return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( 'https://github.com/' . Updater::repo() . '/releases/latest' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Download Extended', 'digifalk-mafia-pbbg-engine' ) . '</a>';
 		}
 		return '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">'
 			. '<input type="hidden" name="action" value="dfmg_install_extended">'
 			. wp_nonce_field( 'dfmg_install_extended', '_wpnonce', true, false )
 			. '<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold">'
-			. ( self::installed() ? esc_html__( 'Activate Extended', 'mafia-pbbg-engine' ) : esc_html__( 'Install Extended (free)', 'mafia-pbbg-engine' ) )
+			. ( self::installed() ? esc_html__( 'Activate Extended', 'digifalk-mafia-pbbg-engine' ) : esc_html__( 'Install Extended (free)', 'digifalk-mafia-pbbg-engine' ) )
 			. '</button></form>';
 	}
 
 	public static function handle(): void {
 		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_install_extended' );
 		$result = self::install();
 		if ( is_wp_error( $result ) ) {
 			set_transient( 'dfmg_admin_error_' . get_current_user_id(), $result->get_error_message(), 60 );
 		} else {
-			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Mafia PBBG Engine Extended is installed and active.', 'mafia-pbbg-engine' ), 60 );
+			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Mafia PBBG Engine Extended is installed and active.', 'digifalk-mafia-pbbg-engine' ), 60 );
 		}
 		wp_safe_redirect( admin_url( 'admin.php?page=dfmg-modules' ) );
 		exit;

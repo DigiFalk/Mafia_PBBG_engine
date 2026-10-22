@@ -57,7 +57,7 @@ final class Admin {
 	}
 
 	public static function plugin_links( array $links ): array {
-		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Manage', 'mafia-pbbg-engine' ) . '</a>' );
+		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Manage', 'digifalk-mafia-pbbg-engine' ) . '</a>' );
 		return $links;
 	}
 
@@ -70,13 +70,13 @@ final class Admin {
 
 	public static function menu(): void {
 		$cap = self::cap();
-		add_menu_page( __( 'Mafia PBBG Engine', 'mafia-pbbg-engine' ), __( 'Mafia PBBG Engine', 'mafia-pbbg-engine' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
-		add_submenu_page( 'dfmg', __( 'Dashboard', 'mafia-pbbg-engine' ), __( 'Dashboard', 'mafia-pbbg-engine' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ) );
-		add_submenu_page( 'dfmg', __( 'Modules', 'mafia-pbbg-engine' ), __( 'Modules', 'mafia-pbbg-engine' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
-		add_submenu_page( 'dfmg', __( 'Game data', 'mafia-pbbg-engine' ), __( 'Game data', 'mafia-pbbg-engine' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
-		add_submenu_page( 'dfmg', __( 'Settings', 'mafia-pbbg-engine' ), __( 'Settings', 'mafia-pbbg-engine' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
+		add_menu_page( __( 'Mafia PBBG Engine', 'digifalk-mafia-pbbg-engine' ), __( 'Mafia PBBG Engine', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
+		add_submenu_page( 'dfmg', __( 'Dashboard', 'digifalk-mafia-pbbg-engine' ), __( 'Dashboard', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ) );
+		add_submenu_page( 'dfmg', __( 'Modules', 'digifalk-mafia-pbbg-engine' ), __( 'Modules', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
+		add_submenu_page( 'dfmg', __( 'Game data', 'digifalk-mafia-pbbg-engine' ), __( 'Game data', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
+		add_submenu_page( 'dfmg', __( 'Settings', 'digifalk-mafia-pbbg-engine' ), __( 'Settings', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
 		// Per module configuration page, reached through the Modules screen (not shown in the menu).
-		add_submenu_page( 'dfmg', __( 'Configure module', 'mafia-pbbg-engine' ), __( 'Configure module', 'mafia-pbbg-engine' ), $cap, 'dfmg-module', array( __CLASS__, 'page_module' ) );
+		add_submenu_page( 'dfmg', __( 'Configure module', 'digifalk-mafia-pbbg-engine' ), __( 'Configure module', 'digifalk-mafia-pbbg-engine' ), $cap, 'dfmg-module', array( __CLASS__, 'page_module' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -89,77 +89,77 @@ final class Admin {
 	public static function tables(): array {
 		$tables = array(
 			'characters'  => array(
-				'label'      => __( 'Players', 'mafia-pbbg-engine' ),
+				'label'      => __( 'Players', 'digifalk-mafia-pbbg-engine' ),
 				'table'      => 'characters',
 				'order'      => 'id DESC',
 				'can_create' => false,
 				'search'     => 'name',
-				'help'       => __( 'Player characters.', 'mafia-pbbg-engine' ),
+				'help'       => __( 'Player characters.', 'digifalk-mafia-pbbg-engine' ),
 				'columns'    => array(
-					'name'        => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'type' => 'text', 'required' => true ),
+					'name'        => array( 'label' => __( 'Name', 'digifalk-mafia-pbbg-engine' ), 'type' => 'text', 'required' => true ),
 					'status'      => array(
-						'label'   => __( 'Status', 'mafia-pbbg-engine' ),
+						'label'   => __( 'Status', 'digifalk-mafia-pbbg-engine' ),
 						'type'    => 'select',
 						'options' => array(
-							1 => __( 'Alive', 'mafia-pbbg-engine' ),
-							0 => __( 'Dead', 'mafia-pbbg-engine' ),
+							1 => __( 'Alive', 'digifalk-mafia-pbbg-engine' ),
+							0 => __( 'Dead', 'digifalk-mafia-pbbg-engine' ),
 						),
 					),
-					'money'       => array( 'label' => __( 'Cash', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'bank'        => array( 'label' => __( 'Bank', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'bullets'     => array( 'label' => __( 'Bullets', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'exp'         => array( 'label' => __( 'Experience', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'damage'      => array( 'label' => __( 'Damage', 'mafia-pbbg-engine' ), 'type' => 'int', 'list' => false ),
-					'rank_id'     => array( 'label' => __( 'Rank', 'mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
-					'location_id' => array( 'label' => __( 'City', 'mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
-					'bio'         => array( 'label' => __( 'Profile text', 'mafia-pbbg-engine' ), 'type' => 'textarea' ),
+					'money'       => array( 'label' => __( 'Cash', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'bank'        => array( 'label' => __( 'Bank', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'bullets'     => array( 'label' => __( 'Bullets', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'exp'         => array( 'label' => __( 'Experience', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'damage'      => array( 'label' => __( 'Damage', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int', 'list' => false ),
+					'rank_id'     => array( 'label' => __( 'Rank', 'digifalk-mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
+					'location_id' => array( 'label' => __( 'City', 'digifalk-mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
+					'bio'         => array( 'label' => __( 'Profile text', 'digifalk-mafia-pbbg-engine' ), 'type' => 'textarea' ),
 				),
 			),
 			'ranks'       => array(
-				'label'   => __( 'Ranks', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Ranks', 'digifalk-mafia-pbbg-engine' ),
 				'table'   => 'ranks',
 				'order'   => 'exp_required ASC',
 				'columns' => array(
-					'name'          => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
-					'exp_required'  => array( 'label' => __( 'Required experience', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'max_players'   => array( 'label' => __( 'Max. players (0 = unlimited)', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'cash_reward'   => array( 'label' => __( 'Cash reward', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'bullet_reward' => array( 'label' => __( 'Bullet reward', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'max_health'    => array( 'label' => __( 'Health', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1000 ),
+					'name'          => array( 'label' => __( 'Name', 'digifalk-mafia-pbbg-engine' ), 'required' => true ),
+					'exp_required'  => array( 'label' => __( 'Required experience', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'max_players'   => array( 'label' => __( 'Max. players (0 = unlimited)', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'cash_reward'   => array( 'label' => __( 'Cash reward', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'bullet_reward' => array( 'label' => __( 'Bullet reward', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'max_health'    => array( 'label' => __( 'Health', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1000 ),
 				),
 			),
 			'money_ranks' => array(
-				'label'   => __( 'Wealth titles', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Wealth titles', 'digifalk-mafia-pbbg-engine' ),
 				'table'   => 'money_ranks',
 				'order'   => 'min_money ASC',
 				'columns' => array(
-					'name'      => array( 'label' => __( 'Title', 'mafia-pbbg-engine' ), 'required' => true ),
-					'min_money' => array( 'label' => __( 'From amount', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'name'      => array( 'label' => __( 'Title', 'digifalk-mafia-pbbg-engine' ), 'required' => true ),
+					'min_money' => array( 'label' => __( 'From amount', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
 				),
 			),
 			'locations'   => array(
-				'label'   => __( 'Cities', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Cities', 'digifalk-mafia-pbbg-engine' ),
 				'table'   => 'locations',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
-					'travel_cost'  => array( 'label' => __( 'Travel cost', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'travel_time'  => array( 'label' => __( 'Cooldown after travelling (sec)', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'bullet_stock' => array( 'label' => __( 'Bullet stock', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'bullet_price' => array( 'label' => __( 'Default bullet price', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'name'         => array( 'label' => __( 'Name', 'digifalk-mafia-pbbg-engine' ), 'required' => true ),
+					'travel_cost'  => array( 'label' => __( 'Travel cost', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'travel_time'  => array( 'label' => __( 'Cooldown after travelling (sec)', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'bullet_stock' => array( 'label' => __( 'Bullet stock', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'bullet_price' => array( 'label' => __( 'Default bullet price', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
 				),
 			),
 			'items'       => array(
-				'label'   => __( 'Items', 'mafia-pbbg-engine' ),
+				'label'   => __( 'Items', 'digifalk-mafia-pbbg-engine' ),
 				'table'   => 'items',
 				'search'  => 'name',
 				'columns' => array(
-					'name'        => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
-					'type'        => array( 'label' => __( 'Type', 'mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
-					'price'       => array( 'label' => __( 'Price', 'mafia-pbbg-engine' ), 'type' => 'int' ),
-					'buyable'     => array( 'label' => __( 'For sale on the black market', 'mafia-pbbg-engine' ), 'type' => 'checkbox', 'default' => 1 ),
-					'description' => array( 'label' => __( 'Description', 'mafia-pbbg-engine' ), 'type' => 'textarea' ),
+					'name'        => array( 'label' => __( 'Name', 'digifalk-mafia-pbbg-engine' ), 'required' => true ),
+					'type'        => array( 'label' => __( 'Type', 'digifalk-mafia-pbbg-engine' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
+					'price'       => array( 'label' => __( 'Price', 'digifalk-mafia-pbbg-engine' ), 'type' => 'int' ),
+					'buyable'     => array( 'label' => __( 'For sale on the black market', 'digifalk-mafia-pbbg-engine' ), 'type' => 'checkbox', 'default' => 1 ),
+					'description' => array( 'label' => __( 'Description', 'digifalk-mafia-pbbg-engine' ), 'type' => 'textarea' ),
 					'effects'     => array(
-						'label'       => __( 'Effects', 'mafia-pbbg-engine' ),
+						'label'       => __( 'Effects', 'digifalk-mafia-pbbg-engine' ),
 						'type'        => 'textarea',
 						'description' => self::effects_help(),
 					),
@@ -181,7 +181,7 @@ final class Admin {
 		foreach ( Items::effects() as $key => $effect ) {
 			$lines[] = '<code>' . esc_html( $key ) . '=…</code> ' . esc_html( $effect['label'] );
 		}
-		return __( 'One effect per line.', 'mafia-pbbg-engine' ) . '<br>' . implode( '<br>', $lines );
+		return __( 'One effect per line.', 'digifalk-mafia-pbbg-engine' ) . '<br>' . implode( '<br>', $lines );
 	}
 
 	public static function page_data(): void {
@@ -195,7 +195,7 @@ final class Admin {
 			}
 		);
 		echo '<div class="wrap dfmg-admin">';
-		self::header( __( 'Game data', 'mafia-pbbg-engine' ), __( 'Core game data. The data of each module is managed on its own page: Modules → Configure.', 'mafia-pbbg-engine' ), 'dfmg-data' );
+		self::header( __( 'Game data', 'digifalk-mafia-pbbg-engine' ), __( 'Core game data. The data of each module is managed on its own page: Modules → Configure.', 'digifalk-mafia-pbbg-engine' ), 'dfmg-data' );
 		self::render_tables( $tables, array( 'page' => 'dfmg-data' ) );
 		echo '</div></div></div>';
 	}
@@ -219,7 +219,7 @@ final class Admin {
 			printf( '<li class="%1$s"><a href="%2$s">%3$s</a></li>', $tab['active'] ? 'is-active' : '', esc_url( $tab['url'] ), esc_html( $tab['label'] ) );
 		}
 		if ( $extra && $tables ) {
-			echo '<li class="dfmg-admin-tabs__group">' . esc_html__( 'Game data', 'mafia-pbbg-engine' ) . '</li>';
+			echo '<li class="dfmg-admin-tabs__group">' . esc_html__( 'Game data', 'digifalk-mafia-pbbg-engine' ) . '</li>';
 		}
 		foreach ( $tables as $key => $def ) {
 			printf( '<li class="%1$s"><a href="%2$s">%3$s</a></li>', $key === $current ? 'is-active' : '', esc_url( DataTable::base_url( $key ) ), esc_html( $def['label'] ) );
@@ -251,7 +251,7 @@ final class Admin {
 		$key    = sanitize_key( wp_unslash( $_POST['table'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_data_save_' . $key );
 		DataTable::save( $key, $tables[ $key ] );
@@ -264,7 +264,7 @@ final class Admin {
 		$id     = absint( $_GET['id'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_data_delete_' . $key . '_' . $id );
 		DataTable::delete( $key, $tables[ $key ], $id );
@@ -282,10 +282,10 @@ final class Admin {
 	 */
 	private static function header( string $title, string $subtitle = '', string $current = '' ): void {
 		$nav = array(
-			'dfmg'          => array( __( 'Dashboard', 'mafia-pbbg-engine' ), 'overview' ),
-			'dfmg-modules'  => array( __( 'Modules', 'mafia-pbbg-engine' ), 'module' ),
-			'dfmg-data'     => array( __( 'Game data', 'mafia-pbbg-engine' ), 'data' ),
-			'dfmg-settings' => array( __( 'Settings', 'mafia-pbbg-engine' ), 'settings' ),
+			'dfmg'          => array( __( 'Dashboard', 'digifalk-mafia-pbbg-engine' ), 'overview' ),
+			'dfmg-modules'  => array( __( 'Modules', 'digifalk-mafia-pbbg-engine' ), 'module' ),
+			'dfmg-data'     => array( __( 'Game data', 'digifalk-mafia-pbbg-engine' ), 'data' ),
+			'dfmg-settings' => array( __( 'Settings', 'digifalk-mafia-pbbg-engine' ), 'settings' ),
 		);
 		$layout = add_query_arg(
 			array(
@@ -298,15 +298,15 @@ final class Admin {
 		<header class="dfmg-admin-hero">
 			<div class="dfmg-admin-hero__top">
 				<div class="dfmg-admin-brand">
-					<span class="dfmg-admin-brand__mark"><?php echo Icons::svg( 'shield', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="dfmg-admin-brand__mark"><?php echo wp_kses( Icons::svg( 'shield', 22 ), dfmg_allowed_html() ); ?></span>
 					<span class="dfmg-admin-brand__text">
 						<strong>Mafia PBBG Engine</strong>
 						<span><?php echo esc_html( 'v' . DFMG_VERSION . ' · ' . (string) Settings::get( 'round_name' ) ); ?></span>
 					</span>
 				</div>
 				<div class="dfmg-admin-hero__actions">
-					<a class="dfmg-admin-btn dfmg-admin-btn--glass" href="<?php echo esc_url( $layout ); ?>"><?php echo Icons::svg( 'layout', 16 ); // phpcs:ignore ?> <?php esc_html_e( 'Game layout', 'mafia-pbbg-engine' ); ?></a>
-					<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open the game', 'mafia-pbbg-engine' ); ?> <?php echo Icons::svg( 'external', 15 ); // phpcs:ignore ?></a>
+					<a class="dfmg-admin-btn dfmg-admin-btn--glass" href="<?php echo esc_url( $layout ); ?>"><?php echo wp_kses( Icons::svg( 'layout', 16 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Game layout', 'digifalk-mafia-pbbg-engine' ); ?></a>
+					<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open the game', 'digifalk-mafia-pbbg-engine' ); ?> <?php echo wp_kses( Icons::svg( 'external', 15 ), dfmg_allowed_html() ); ?></a>
 				</div>
 			</div>
 			<div class="dfmg-admin-hero__title">
@@ -315,9 +315,9 @@ final class Admin {
 					<p><?php echo wp_kses_post( $subtitle ); ?></p>
 				<?php endif; ?>
 			</div>
-			<nav class="dfmg-admin-nav" aria-label="<?php esc_attr_e( 'Mafia PBBG Engine', 'mafia-pbbg-engine' ); ?>">
+			<nav class="dfmg-admin-nav" aria-label="<?php esc_attr_e( 'Mafia PBBG Engine', 'digifalk-mafia-pbbg-engine' ); ?>">
 				<?php foreach ( $nav as $page => $item ) : ?>
-					<a class="<?php echo $page === $current ? 'is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=' . $page ) ); ?>"<?php echo $page === $current ? ' aria-current="page"' : ''; ?>><?php echo Icons::svg( $item[1], 16 ); // phpcs:ignore ?> <?php echo esc_html( $item[0] ); ?></a>
+					<a class="<?php echo $page === $current ? 'is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=' . $page ) ); ?>"<?php echo $page === $current ? ' aria-current="page"' : ''; ?>><?php echo wp_kses( Icons::svg( $item[1], 16 ), dfmg_allowed_html() ); ?> <?php echo esc_html( $item[0] ); ?></a>
 				<?php endforeach; ?>
 			</nav>
 		</header>
@@ -342,30 +342,30 @@ final class Admin {
 		$top     = DB::results( 'SELECT name, user_id, exp, rank_id, money + bank AS wealth FROM {characters} WHERE status = 1 ORDER BY exp DESC, id ASC LIMIT 5' );
 		$feed    = DB::results( 'SELECT a.action, a.success, a.created_at, c.name FROM {activity} a LEFT JOIN {characters} c ON c.id = a.character_id ORDER BY a.id DESC LIMIT 8' );
 		$stats   = array(
-			array( 'players', __( 'Living players', 'mafia-pbbg-engine' ), Format::number( $alive ) ),
-			array( 'activity', __( 'Online now', 'mafia-pbbg-engine' ), Format::number( $online ) ),
-			array( 'murder', __( 'Murdered', 'mafia-pbbg-engine' ), Format::number( $dead ) ),
-			array( 'cash', __( 'Money in circulation', 'mafia-pbbg-engine' ), Format::money( $money ) ),
-			array( 'crimes', __( 'Actions (24 hours)', 'mafia-pbbg-engine' ), Format::number( $actions ) ),
+			array( 'players', __( 'Living players', 'digifalk-mafia-pbbg-engine' ), Format::number( $alive ) ),
+			array( 'activity', __( 'Online now', 'digifalk-mafia-pbbg-engine' ), Format::number( $online ) ),
+			array( 'murder', __( 'Murdered', 'digifalk-mafia-pbbg-engine' ), Format::number( $dead ) ),
+			array( 'cash', __( 'Money in circulation', 'digifalk-mafia-pbbg-engine' ), Format::money( $money ) ),
+			array( 'crimes', __( 'Actions (24 hours)', 'digifalk-mafia-pbbg-engine' ), Format::number( $actions ) ),
 		);
 		$customize = admin_url( 'customize.php?url=' . rawurlencode( Game::page_url() ) );
 		$links     = array(
-			array( 'layout', __( 'Game layout', 'mafia-pbbg-engine' ), __( 'Drag game elements into place', 'mafia-pbbg-engine' ), add_query_arg( 'autofocus[section]', 'dfmg_game_layout', $customize ) ),
-			array( 'palette', __( 'Theme & colours', 'mafia-pbbg-engine' ), __( 'Header, footer, light & dark mode', 'mafia-pbbg-engine' ), $customize ),
-			array( 'module', __( 'Modules', 'mafia-pbbg-engine' ), __( 'Switch game features on or off', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-modules' ) ),
-			array( 'data', __( 'Game data', 'mafia-pbbg-engine' ), __( 'Players, ranks, cities and items', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-data' ) ),
-			array( 'settings', __( 'Settings', 'mafia-pbbg-engine' ), __( 'Round, money and appearance', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-settings' ) ),
-			array( 'book', __( 'Documentation', 'mafia-pbbg-engine' ), __( 'Build your own modules', 'mafia-pbbg-engine' ), 'https://github.com/DigiFalk/Mafia_PBBG_engine/blob/main/docs/MODULES.md' ),
+			array( 'layout', __( 'Game layout', 'digifalk-mafia-pbbg-engine' ), __( 'Drag game elements into place', 'digifalk-mafia-pbbg-engine' ), add_query_arg( 'autofocus[section]', 'dfmg_game_layout', $customize ) ),
+			array( 'palette', __( 'Theme & colours', 'digifalk-mafia-pbbg-engine' ), __( 'Header, footer, light & dark mode', 'digifalk-mafia-pbbg-engine' ), $customize ),
+			array( 'module', __( 'Modules', 'digifalk-mafia-pbbg-engine' ), __( 'Switch game features on or off', 'digifalk-mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-modules' ) ),
+			array( 'data', __( 'Game data', 'digifalk-mafia-pbbg-engine' ), __( 'Players, ranks, cities and items', 'digifalk-mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-data' ) ),
+			array( 'settings', __( 'Settings', 'digifalk-mafia-pbbg-engine' ), __( 'Round, money and appearance', 'digifalk-mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-settings' ) ),
+			array( 'book', __( 'Documentation', 'digifalk-mafia-pbbg-engine' ), __( 'Build your own modules', 'digifalk-mafia-pbbg-engine' ), 'https://github.com/DigiFalk/Mafia_PBBG_engine/blob/main/docs/MODULES.md' ),
 		);
 		?>
 		<div class="wrap dfmg-admin">
-			<?php self::header( __( 'Dashboard', 'mafia-pbbg-engine' ), __( 'How your underworld is doing right now.', 'mafia-pbbg-engine' ), 'dfmg' ); ?>
+			<?php self::header( __( 'Dashboard', 'digifalk-mafia-pbbg-engine' ), __( 'How your underworld is doing right now.', 'digifalk-mafia-pbbg-engine' ), 'dfmg' ); ?>
 			<?php self::render_credit_question(); ?>
 
 			<div class="dfmg-admin-stats">
 				<?php foreach ( $stats as $stat ) : ?>
 					<div class="dfmg-admin-stat">
-						<span class="dfmg-admin-stat__icon"><?php echo Icons::svg( $stat[0], 20 ); // phpcs:ignore ?></span>
+						<span class="dfmg-admin-stat__icon"><?php echo wp_kses( Icons::svg( $stat[0], 20 ), dfmg_allowed_html() ); ?></span>
 						<span class="dfmg-admin-stat__label"><?php echo esc_html( $stat[1] ); ?></span>
 						<strong class="dfmg-admin-stat__value"><?php echo esc_html( $stat[2] ); ?></strong>
 					</div>
@@ -374,13 +374,13 @@ final class Admin {
 
 			<div class="dfmg-admin-grid dfmg-admin-grid--wide">
 				<section class="dfmg-admin-panel">
-					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'statistics', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Player actions, last 7 days', 'mafia-pbbg-engine' ); ?></h2>
+					<h2 class="dfmg-admin-panel__title"><?php echo wp_kses( Icons::svg( 'statistics', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Player actions, last 7 days', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 					<?php self::activity_chart(); ?>
 				</section>
 				<section class="dfmg-admin-panel">
-					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'leaderboards', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Top players', 'mafia-pbbg-engine' ); ?></h2>
+					<h2 class="dfmg-admin-panel__title"><?php echo wp_kses( Icons::svg( 'leaderboards', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Top players', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 					<?php if ( ! $top ) : ?>
-						<p class="dfmg-admin-empty"><?php esc_html_e( 'No players yet. Share the game page to get started.', 'mafia-pbbg-engine' ); ?></p>
+						<p class="dfmg-admin-empty"><?php esc_html_e( 'No players yet. Share the game page to get started.', 'digifalk-mafia-pbbg-engine' ); ?></p>
 					<?php else : ?>
 						<ol class="dfmg-admin-top">
 							<?php foreach ( $top as $row ) : ?>
@@ -392,7 +392,7 @@ final class Admin {
 										<span class="dfmg-admin-top__avatar" aria-hidden="true"><?php echo esc_html( mb_strtoupper( mb_substr( (string) $row['name'], 0, 1 ) ) ); ?></span>
 									<?php endif; ?>
 									<span class="dfmg-admin-top__who"><strong><?php echo esc_html( (string) $row['name'] ); ?></strong><small><?php echo esc_html( (string) ( Ranks::get( (int) $row['rank_id'] )['name'] ?? '' ) ); ?></small></span>
-									<span class="dfmg-admin-top__num"><?php echo esc_html( Format::money( (int) $row['wealth'] ) ); ?><small><?php /* translators: %s: experience */ echo esc_html( sprintf( __( '%s XP', 'mafia-pbbg-engine' ), Format::number( (int) $row['exp'] ) ) ); ?></small></span>
+									<span class="dfmg-admin-top__num"><?php echo esc_html( Format::money( (int) $row['wealth'] ) ); ?><small><?php /* translators: %s: experience */ echo esc_html( sprintf( __( '%s XP', 'digifalk-mafia-pbbg-engine' ), Format::number( (int) $row['exp'] ) ) ); ?></small></span>
 								</li>
 							<?php endforeach; ?>
 						</ol>
@@ -402,15 +402,15 @@ final class Admin {
 
 			<div class="dfmg-admin-grid">
 				<section class="dfmg-admin-panel">
-					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'activity', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Live feed', 'mafia-pbbg-engine' ); ?></h2>
+					<h2 class="dfmg-admin-panel__title"><?php echo wp_kses( Icons::svg( 'activity', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Live feed', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 					<?php if ( ! $feed ) : ?>
-						<p class="dfmg-admin-empty"><?php esc_html_e( 'Nothing has happened yet.', 'mafia-pbbg-engine' ); ?></p>
+						<p class="dfmg-admin-empty"><?php esc_html_e( 'Nothing has happened yet.', 'digifalk-mafia-pbbg-engine' ); ?></p>
 					<?php else : ?>
 						<ul class="dfmg-admin-feed">
 							<?php foreach ( $feed as $row ) : ?>
 								<li class="<?php echo $row['success'] ? 'is-success' : 'is-fail'; ?>">
 									<span class="dfmg-admin-feed__dot" aria-hidden="true"></span>
-									<span class="dfmg-admin-feed__text"><strong><?php echo esc_html( (string) ( $row['name'] ?: __( 'Unknown player', 'mafia-pbbg-engine' ) ) ); ?></strong> <?php echo esc_html( self::activity_label( (string) $row['action'] ) ); ?> <em><?php echo $row['success'] ? esc_html__( 'succeeded', 'mafia-pbbg-engine' ) : esc_html__( 'failed', 'mafia-pbbg-engine' ); ?></em></span>
+									<span class="dfmg-admin-feed__text"><strong><?php echo esc_html( (string) ( $row['name'] ?: __( 'Unknown player', 'digifalk-mafia-pbbg-engine' ) ) ); ?></strong> <?php echo esc_html( self::activity_label( (string) $row['action'] ) ); ?> <em><?php echo $row['success'] ? esc_html__( 'succeeded', 'digifalk-mafia-pbbg-engine' ) : esc_html__( 'failed', 'digifalk-mafia-pbbg-engine' ); ?></em></span>
 									<time><?php echo esc_html( Format::ago( (int) $row['created_at'] ) ); ?></time>
 								</li>
 							<?php endforeach; ?>
@@ -418,17 +418,17 @@ final class Admin {
 					<?php endif; ?>
 				</section>
 				<section class="dfmg-admin-panel">
-					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'module', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Quick links', 'mafia-pbbg-engine' ); ?></h2>
+					<h2 class="dfmg-admin-panel__title"><?php echo wp_kses( Icons::svg( 'module', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Quick links', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 					<div class="dfmg-admin-links">
 						<?php foreach ( $links as $link ) : ?>
 							<a class="dfmg-admin-link" href="<?php echo esc_url( $link[3] ); ?>"<?php echo 0 === strpos( $link[3], 'http' ) && false === strpos( $link[3], admin_url() ) ? ' target="_blank" rel="noopener"' : ''; ?>>
-								<span class="dfmg-admin-link__icon"><?php echo Icons::svg( $link[0], 18 ); // phpcs:ignore ?></span>
+								<span class="dfmg-admin-link__icon"><?php echo wp_kses( Icons::svg( $link[0], 18 ), dfmg_allowed_html() ); ?></span>
 								<span><strong><?php echo esc_html( $link[1] ); ?></strong><small><?php echo esc_html( $link[2] ); ?></small></span>
 							</a>
 						<?php endforeach; ?>
 					</div>
 					<p class="dfmg-admin-shortcode">
-						<?php esc_html_e( 'Game page', 'mafia-pbbg-engine' ); ?>:
+						<?php esc_html_e( 'Game page', 'digifalk-mafia-pbbg-engine' ); ?>:
 						<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php echo esc_html( Game::page_url() ); ?></a>
 						<code>[mafia_pbbg_engine]</code>
 					</p>
@@ -436,14 +436,14 @@ final class Admin {
 			</div>
 
 			<details class="dfmg-admin-panel dfmg-admin-danger">
-				<summary><?php echo Icons::svg( 'alert', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Start a new round', 'mafia-pbbg-engine' ); ?> <small><?php esc_html_e( 'Erases all characters and player data', 'mafia-pbbg-engine' ); ?></small></summary>
-				<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'mafia-pbbg-engine' ); ?></p>
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'mafia-pbbg-engine' ) ); ?>');">
+				<summary><?php echo wp_kses( Icons::svg( 'alert', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Start a new round', 'digifalk-mafia-pbbg-engine' ); ?> <small><?php esc_html_e( 'Erases all characters and player data', 'digifalk-mafia-pbbg-engine' ); ?></small></summary>
+				<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'digifalk-mafia-pbbg-engine' ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'digifalk-mafia-pbbg-engine' ) ); ?>');">
 					<input type="hidden" name="action" value="dfmg_new_round">
 					<?php wp_nonce_field( 'dfmg_new_round' ); ?>
-					<p><label><?php esc_html_e( 'New round name', 'mafia-pbbg-engine' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
-					<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'mafia-pbbg-engine' ); ?></label></p>
-					<?php submit_button( __( 'Start new round', 'mafia-pbbg-engine' ), 'delete' ); ?>
+					<p><label><?php esc_html_e( 'New round name', 'digifalk-mafia-pbbg-engine' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
+					<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'digifalk-mafia-pbbg-engine' ); ?></label></p>
+					<?php submit_button( __( 'Start new round', 'digifalk-mafia-pbbg-engine' ), 'delete' ); ?>
 				</form>
 			</details>
 		</div>
@@ -493,7 +493,7 @@ final class Admin {
 			$labels[] = wp_date( 'D j', $start + $i * DAY_IN_SECONDS + 3600, $tz );
 		}
 		echo '<figure class="dfmg-admin-chart">';
-		echo '<svg viewBox="0 0 ' . esc_attr( $w . ' ' . $h ) . '" role="img" aria-label="' . esc_attr__( 'Player actions per day', 'mafia-pbbg-engine' ) . '">';
+		echo '<svg viewBox="0 0 ' . esc_attr( $w . ' ' . $h ) . '" role="img" aria-label="' . esc_attr__( 'Player actions per day', 'digifalk-mafia-pbbg-engine' ) . '">';
 		for ( $g = 0; $g <= 4; $g++ ) {
 			$y = 12 + $plot_h - ( $plot_h * $g / 4 );
 			echo '<line class="dfmg-admin-chart__grid" x1="' . esc_attr( $left ) . '" x2="' . esc_attr( $w - 4 ) . '" y1="' . esc_attr( $y ) . '" y2="' . esc_attr( $y ) . '"/>';
@@ -524,13 +524,13 @@ final class Admin {
 		}
 		echo '<line class="dfmg-admin-chart__base" x1="' . esc_attr( $left ) . '" x2="' . esc_attr( $w - 4 ) . '" y1="' . esc_attr( 12 + $plot_h ) . '" y2="' . esc_attr( 12 + $plot_h ) . '"/>';
 		echo '</svg>';
-		echo '<table class="screen-reader-text"><caption>' . esc_html__( 'Player actions per day', 'mafia-pbbg-engine' ) . '</caption><tbody>';
+		echo '<table class="screen-reader-text"><caption>' . esc_html__( 'Player actions per day', 'digifalk-mafia-pbbg-engine' ) . '</caption><tbody>';
 		foreach ( $days as $i => $n ) {
 			echo '<tr><th scope="row">' . esc_html( $labels[ $i ] ) . '</th><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';
 		}
 		echo '</tbody></table>';
 		/* translators: %s: number of actions */
-		echo '<figcaption>' . esc_html( sprintf( __( '%s actions this week', 'mafia-pbbg-engine' ), Format::number( array_sum( $days ) ) ) ) . '</figcaption>';
+		echo '<figcaption>' . esc_html( sprintf( __( '%s actions this week', 'digifalk-mafia-pbbg-engine' ), Format::number( array_sum( $days ) ) ) ) . '</figcaption>';
 		echo '</figure>';
 	}
 
@@ -545,20 +545,20 @@ final class Admin {
 		$action = admin_url( 'admin-post.php' );
 		?>
 		<section class="dfmg-admin-panel dfmg-admin-credit-question">
-			<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'membership', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'Support Mafia PBBG Engine?', 'mafia-pbbg-engine' ); ?></h2>
-			<p><?php esc_html_e( 'May the game show a small line "Mafia PBBG Engine by DigiFalk" with a link to the maker at the bottom of game pages? It helps others find the game. It stays off unless you choose yes, and you can change it any time under Settings.', 'mafia-pbbg-engine' ); ?></p>
+			<h2 class="dfmg-admin-section-title"><?php echo wp_kses( Icons::svg( 'membership', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Support Mafia PBBG Engine?', 'digifalk-mafia-pbbg-engine' ); ?></h2>
+			<p><?php esc_html_e( 'May the game show a small line "Mafia PBBG Engine by DigiFalk" with a link to the maker at the bottom of game pages? It helps others find the game. It stays off unless you choose yes, and you can change it any time under Settings.', 'digifalk-mafia-pbbg-engine' ); ?></p>
 			<div class="dfmg-admin-premium__actions">
 				<form method="post" action="<?php echo esc_url( $action ); ?>">
 					<input type="hidden" name="action" value="dfmg_credit_choice">
 					<input type="hidden" name="choice" value="yes">
 					<?php wp_nonce_field( 'dfmg_credit_choice' ); ?>
-					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold"><?php esc_html_e( 'Yes, show the line', 'mafia-pbbg-engine' ); ?></button>
+					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold"><?php esc_html_e( 'Yes, show the line', 'digifalk-mafia-pbbg-engine' ); ?></button>
 				</form>
 				<form method="post" action="<?php echo esc_url( $action ); ?>">
 					<input type="hidden" name="action" value="dfmg_credit_choice">
 					<input type="hidden" name="choice" value="no">
 					<?php wp_nonce_field( 'dfmg_credit_choice' ); ?>
-					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--ghost"><?php esc_html_e( 'No thanks', 'mafia-pbbg-engine' ); ?></button>
+					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--ghost"><?php esc_html_e( 'No thanks', 'digifalk-mafia-pbbg-engine' ); ?></button>
 				</form>
 			</div>
 		</section>
@@ -581,29 +581,29 @@ final class Admin {
 			}
 			echo '<div class="notice notice-error"><p><strong>' . esc_html(
 				/* translators: %s: module name */
-				sprintf( __( 'Mafia PBBG Engine: the module "%s" could not be loaded and is switched off for now.', 'mafia-pbbg-engine' ), $info['name'] )
-			) . '</strong> ' . esc_html__( 'It may be made for another version of Mafia PBBG Engine. Update the module (premium modules: Modules screen, Update or Download again), or switch it off.', 'mafia-pbbg-engine' )
+				sprintf( __( 'Mafia PBBG Engine: the module "%s" could not be loaded and is switched off for now.', 'digifalk-mafia-pbbg-engine' ), $info['name'] )
+			) . '</strong> ' . esc_html__( 'It may be made for another version of Mafia PBBG Engine. Update the module (premium modules: Modules screen, Update or Download again), or switch it off.', 'digifalk-mafia-pbbg-engine' )
 				. '</p><p><code>' . esc_html( (string) $message ) . '</code></p></div>';
 		}
 	}
 
 	public static function handle_credit_choice(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_credit_choice' );
 		$yes = 'yes' === sanitize_key( wp_unslash( $_POST['choice'] ?? '' ) );
 		Settings::set( 'show_credit', $yes ? 1 : 0 );
 		update_option( 'dfmg_credit_asked', 1 );
 		if ( $yes ) {
-			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Thank you! The line is shown at the bottom of game pages.', 'mafia-pbbg-engine' ), 60 );
+			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Thank you! The line is shown at the bottom of game pages.', 'digifalk-mafia-pbbg-engine' ), 60 );
 		}
 		self::redirect( admin_url( 'admin.php?page=dfmg' ) );
 	}
 
 	public static function handle_new_round(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_new_round' );
 		if ( empty( $_POST['confirm'] ) ) {
@@ -632,18 +632,18 @@ final class Admin {
 			$active += $registry->is_enabled( $id ) ? 1 : 0;
 		}
 		$sources = array(
-			'bundled' => __( 'Bundled', 'mafia-pbbg-engine' ),
-			'custom'  => __( 'Custom module', 'mafia-pbbg-engine' ),
-			'plugin'  => __( 'Other plugin', 'mafia-pbbg-engine' ),
+			'bundled' => __( 'Bundled', 'digifalk-mafia-pbbg-engine' ),
+			'custom'  => __( 'Custom module', 'digifalk-mafia-pbbg-engine' ),
+			'plugin'  => __( 'Other plugin', 'digifalk-mafia-pbbg-engine' ),
 		);
 		$subtitle = sprintf(
 			/* translators: %s: directory */
-			esc_html__( 'Switch game features on or off. Place custom modules in %s (one folder per module containing a module.php).', 'mafia-pbbg-engine' ),
+			esc_html__( 'Switch game features on or off. Place custom modules in %s (one folder per module containing a module.php).', 'digifalk-mafia-pbbg-engine' ),
 			'<code>' . esc_html( str_replace( ABSPATH, '', DFMG_CUSTOM_MODULES_DIR ) ) . '</code>'
 		);
 		?>
 		<div class="wrap dfmg-admin">
-			<?php self::header( __( 'Modules', 'mafia-pbbg-engine' ), $subtitle, 'dfmg-modules' ); ?>
+			<?php self::header( __( 'Modules', 'digifalk-mafia-pbbg-engine' ), $subtitle, 'dfmg-modules' ); ?>
 
 			<?php
 			if ( has_action( 'dfmg_admin_premium_modules' ) ) {
@@ -656,17 +656,17 @@ final class Admin {
 			}
 			?>
 
-			<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'module', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Installed modules', 'mafia-pbbg-engine' ); ?></h2>
+			<h2 class="dfmg-admin-section-title"><?php echo wp_kses( Icons::svg( 'module', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Installed modules', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 			<div class="dfmg-admin-toolbar" data-dfmg-modules-toolbar>
-				<div class="dfmg-admin-segment" role="group" aria-label="<?php esc_attr_e( 'Filter modules', 'mafia-pbbg-engine' ); ?>">
-					<button type="button" class="is-active" data-filter="all"><?php esc_html_e( 'All', 'mafia-pbbg-engine' ); ?> <span><?php echo (int) count( $available ); ?></span></button>
-					<button type="button" data-filter="on"><?php esc_html_e( 'Active', 'mafia-pbbg-engine' ); ?> <span><?php echo (int) $active; ?></span></button>
-					<button type="button" data-filter="off"><?php esc_html_e( 'Inactive', 'mafia-pbbg-engine' ); ?> <span><?php echo (int) ( count( $available ) - $active ); ?></span></button>
+				<div class="dfmg-admin-segment" role="group" aria-label="<?php esc_attr_e( 'Filter modules', 'digifalk-mafia-pbbg-engine' ); ?>">
+					<button type="button" class="is-active" data-filter="all"><?php esc_html_e( 'All', 'digifalk-mafia-pbbg-engine' ); ?> <span><?php echo (int) count( $available ); ?></span></button>
+					<button type="button" data-filter="on"><?php esc_html_e( 'Active', 'digifalk-mafia-pbbg-engine' ); ?> <span><?php echo (int) $active; ?></span></button>
+					<button type="button" data-filter="off"><?php esc_html_e( 'Inactive', 'digifalk-mafia-pbbg-engine' ); ?> <span><?php echo (int) ( count( $available ) - $active ); ?></span></button>
 				</div>
 				<label class="dfmg-admin-search-field">
-					<?php echo Icons::svg( 'detectives', 16 ); // phpcs:ignore ?>
-					<span class="screen-reader-text"><?php esc_html_e( 'Search modules', 'mafia-pbbg-engine' ); ?></span>
-					<input type="search" placeholder="<?php esc_attr_e( 'Search modules…', 'mafia-pbbg-engine' ); ?>" data-dfmg-module-search>
+					<?php echo wp_kses( Icons::svg( 'detectives', 16 ), dfmg_allowed_html() ); ?>
+					<span class="screen-reader-text"><?php esc_html_e( 'Search modules', 'digifalk-mafia-pbbg-engine' ); ?></span>
+					<input type="search" placeholder="<?php esc_attr_e( 'Search modules…', 'digifalk-mafia-pbbg-engine' ); ?>" data-dfmg-module-search>
 				</label>
 			</div>
 
@@ -679,18 +679,18 @@ final class Admin {
 					?>
 					<article class="dfmg-admin-module <?php echo $on ? 'is-on' : 'is-off'; ?>" data-state="<?php echo $on ? 'on' : 'off'; ?>" data-search="<?php echo esc_attr( $search ); ?>">
 						<header class="dfmg-admin-module__head">
-							<span class="dfmg-admin-module__icon"><?php echo Icons::svg( Icons::has( $id ) ? $id : 'module', 22 ); // phpcs:ignore ?></span>
+							<span class="dfmg-admin-module__icon"><?php echo wp_kses( Icons::svg( Icons::has( $id ) ? $id : 'module', 22 ), dfmg_allowed_html() ); ?></span>
 							<div class="dfmg-admin-module__name">
 								<h2><?php echo esc_html( $info['name'] ); ?></h2>
-								<span><?php echo esc_html( 'v' . $info['version'] . ' · ' . ( ! empty( $info['premium'] ) ? __( 'Premium', 'mafia-pbbg-engine' ) : ( $sources[ $info['source'] ] ?? $info['source'] ) ) . ( $info['author'] ? ' · ' . $info['author'] : '' ) ); ?></span>
+								<span><?php echo esc_html( 'v' . $info['version'] . ' · ' . ( ! empty( $info['premium'] ) ? __( 'Premium', 'digifalk-mafia-pbbg-engine' ) : ( $sources[ $info['source'] ] ?? $info['source'] ) ) . ( $info['author'] ? ' · ' . $info['author'] : '' ) ); ?></span>
 							</div>
 							<?php if ( $info['required'] ) : ?>
-								<span class="dfmg-admin-badge"><?php esc_html_e( 'Required', 'mafia-pbbg-engine' ); ?></span>
+								<span class="dfmg-admin-badge"><?php esc_html_e( 'Required', 'digifalk-mafia-pbbg-engine' ); ?></span>
 							<?php elseif ( ! empty( $info['premium'] ) && ! $registry->runnable( $id ) ) : ?>
 								<?php if ( Extended::active() ) : ?>
-									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#premium-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'License needed', 'mafia-pbbg-engine' ); ?></a>
+									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#premium-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'License needed', 'digifalk-mafia-pbbg-engine' ); ?></a>
 								<?php else : ?>
-									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#dfmg-extended"><?php esc_html_e( 'Needs Extended', 'mafia-pbbg-engine' ); ?></a>
+									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#dfmg-extended"><?php esc_html_e( 'Needs Extended', 'digifalk-mafia-pbbg-engine' ); ?></a>
 								<?php endif; ?>
 							<?php else : ?>
 								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -698,8 +698,8 @@ final class Admin {
 									<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
 									<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
 									<?php wp_nonce_field( 'dfmg_module_' . $id ); ?>
-									<button type="submit" class="dfmg-admin-switch" role="switch" aria-checked="<?php echo $on ? 'true' : 'false'; ?>" title="<?php echo $on ? esc_attr__( 'Disable', 'mafia-pbbg-engine' ) : esc_attr__( 'Enable', 'mafia-pbbg-engine' ); ?>">
-										<span class="screen-reader-text"><?php echo esc_html( ( $on ? __( 'Disable', 'mafia-pbbg-engine' ) : __( 'Enable', 'mafia-pbbg-engine' ) ) . ' ' . $info['name'] ); ?></span>
+									<button type="submit" class="dfmg-admin-switch" role="switch" aria-checked="<?php echo $on ? 'true' : 'false'; ?>" title="<?php echo $on ? esc_attr__( 'Disable', 'digifalk-mafia-pbbg-engine' ) : esc_attr__( 'Enable', 'digifalk-mafia-pbbg-engine' ); ?>">
+										<span class="screen-reader-text"><?php echo esc_html( ( $on ? __( 'Disable', 'digifalk-mafia-pbbg-engine' ) : __( 'Enable', 'digifalk-mafia-pbbg-engine' ) ) . ' ' . $info['name'] ); ?></span>
 									</button>
 								</form>
 							<?php endif; ?>
@@ -707,20 +707,20 @@ final class Admin {
 						<p class="dfmg-admin-module__desc"><?php echo esc_html( $info['description'] ); ?></p>
 						<footer class="dfmg-admin-module__foot">
 							<?php if ( $info['requires'] ) : ?>
-								<span class="dfmg-admin-module__requires"><?php esc_html_e( 'Requires', 'mafia-pbbg-engine' ); ?>
+								<span class="dfmg-admin-module__requires"><?php esc_html_e( 'Requires', 'digifalk-mafia-pbbg-engine' ); ?>
 									<?php foreach ( $info['requires'] as $dep ) : ?>
 										<span class="dfmg-admin-chip"><?php echo esc_html( $dep ); ?></span>
 									<?php endforeach; ?>
 								</span>
 							<?php endif; ?>
 							<?php if ( $module && ( $module->settings_fields() || $module->admin_tables() ) ) : ?>
-								<a class="dfmg-admin-btn dfmg-admin-btn--ghost dfmg-configure" href="<?php echo esc_url( self::module_url( $id ) ); ?>"><?php echo Icons::svg( 'settings', 15 ); // phpcs:ignore ?> <?php esc_html_e( 'Configure', 'mafia-pbbg-engine' ); ?></a>
+								<a class="dfmg-admin-btn dfmg-admin-btn--ghost dfmg-configure" href="<?php echo esc_url( self::module_url( $id ) ); ?>"><?php echo wp_kses( Icons::svg( 'settings', 15 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Configure', 'digifalk-mafia-pbbg-engine' ); ?></a>
 							<?php endif; ?>
 						</footer>
 					</article>
 				<?php endforeach; ?>
 			</div>
-			<p class="dfmg-admin-empty" hidden data-dfmg-no-modules><?php esc_html_e( 'No modules match your search.', 'mafia-pbbg-engine' ); ?></p>
+			<p class="dfmg-admin-empty" hidden data-dfmg-no-modules><?php esc_html_e( 'No modules match your search.', 'digifalk-mafia-pbbg-engine' ); ?></p>
 		</div>
 		<?php
 	}
@@ -733,11 +733,11 @@ final class Admin {
 		<section class="dfmg-admin-premium" id="dfmg-extended">
 			<div class="dfmg-admin-premium__head">
 				<div>
-					<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'membership', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Mafia PBBG Engine Extended (free)', 'mafia-pbbg-engine' ); ?></h2>
-					<p><?php esc_html_e( 'Extended adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, the forum and the Mafia PBBG Engine theme. It is also needed for premium modules.', 'mafia-pbbg-engine' ); ?></p>
+					<h2 class="dfmg-admin-section-title"><?php echo wp_kses( Icons::svg( 'membership', 18 ), dfmg_allowed_html() ); ?> <?php esc_html_e( 'Mafia PBBG Engine Extended (free)', 'digifalk-mafia-pbbg-engine' ); ?></h2>
+					<p><?php esc_html_e( 'Extended adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, the forum and the Mafia PBBG Engine theme. It is also needed for premium modules.', 'digifalk-mafia-pbbg-engine' ); ?></p>
 				</div>
 				<div class="dfmg-admin-premium__actions">
-					<?php echo Extended::button(); // phpcs:ignore ?>
+					<?php echo wp_kses( Extended::button(), dfmg_allowed_html() ); ?>
 				</div>
 			</div>
 		</section>
@@ -747,7 +747,7 @@ final class Admin {
 	public static function handle_module(): void {
 		$id = sanitize_key( wp_unslash( $_POST['module'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_module_' . $id );
 		$registry = Plugin::instance()->modules;
@@ -766,7 +766,7 @@ final class Admin {
 	private static function settings_sections(): array {
 		$sections = array(
 			'core' => array(
-				'label'  => __( 'General', 'mafia-pbbg-engine' ),
+				'label'  => __( 'General', 'digifalk-mafia-pbbg-engine' ),
 				'fields' => Settings::core_fields(),
 			),
 		);
@@ -788,13 +788,13 @@ final class Admin {
 		}
 		?>
 		<div class="wrap dfmg-admin">
-			<?php self::header( __( 'Settings', 'mafia-pbbg-engine' ), __( 'General game settings. The settings of each module are on its own page: Modules → Configure.', 'mafia-pbbg-engine' ), 'dfmg-settings' ); ?>
+			<?php self::header( __( 'Settings', 'digifalk-mafia-pbbg-engine' ), __( 'General game settings. The settings of each module are on its own page: Modules → Configure.', 'digifalk-mafia-pbbg-engine' ), 'dfmg-settings' ); ?>
 			<form method="post" class="dfmg-admin-panel dfmg-admin-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
 				<input type="hidden" name="section" value="core">
 				<?php wp_nonce_field( 'dfmg_settings' ); ?>
 				<?php self::render_fields( Settings::core_fields() ); ?>
-				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'mafia-pbbg-engine' ), 'primary', 'submit', false ); ?></div>
+				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'digifalk-mafia-pbbg-engine' ), 'primary', 'submit', false ); ?></div>
 			</form>
 		</div>
 		<?php
@@ -853,8 +853,8 @@ final class Admin {
 		$module = Plugin::instance()->modules->get( $id );
 		echo '<div class="wrap dfmg-admin">';
 		if ( ! $module ) {
-			self::header( __( 'Configure module', 'mafia-pbbg-engine' ), esc_html__( 'This module is not enabled.', 'mafia-pbbg-engine' ), 'dfmg-modules' );
-			echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'mafia-pbbg-engine' ) . '</a></p></div>';
+			self::header( __( 'Configure module', 'digifalk-mafia-pbbg-engine' ), esc_html__( 'This module is not enabled.', 'digifalk-mafia-pbbg-engine' ), 'dfmg-modules' );
+			echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'digifalk-mafia-pbbg-engine' ) . '</a></p></div>';
 			return;
 		}
 		$fields = $module->settings_fields();
@@ -869,15 +869,15 @@ final class Admin {
 
 		self::header(
 			/* translators: %s: module name */
-			sprintf( __( 'Configure: %s', 'mafia-pbbg-engine' ), $module->name() ),
-			'<a class="dfmg-admin-back" href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'mafia-pbbg-engine' ) . '</a> ' . esc_html( (string) $module->info( 'description' ) ),
+			sprintf( __( 'Configure: %s', 'digifalk-mafia-pbbg-engine' ), $module->name() ),
+			'<a class="dfmg-admin-back" href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'digifalk-mafia-pbbg-engine' ) . '</a> ' . esc_html( (string) $module->info( 'description' ) ),
 			'dfmg-modules'
 		);
 
 		$extra = array();
 		if ( $fields ) {
 			$extra['settings'] = array(
-				'label'  => __( 'Settings', 'mafia-pbbg-engine' ),
+				'label'  => __( 'Settings', 'digifalk-mafia-pbbg-engine' ),
 				'url'    => self::module_url( $id ),
 				'active' => $on_settings,
 			);
@@ -895,13 +895,13 @@ final class Admin {
 		);
 		if ( $on_settings ) {
 			?>
-			<h2><?php esc_html_e( 'Settings', 'mafia-pbbg-engine' ); ?></h2>
+			<h2><?php esc_html_e( 'Settings', 'digifalk-mafia-pbbg-engine' ); ?></h2>
 			<form method="post" class="dfmg-admin-panel dfmg-admin-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
 				<input type="hidden" name="section" value="<?php echo esc_attr( $id ); ?>">
 				<?php wp_nonce_field( 'dfmg_settings' ); ?>
 				<?php self::render_fields( $fields ); ?>
-				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'mafia-pbbg-engine' ), 'primary', 'submit', false ); ?></div>
+				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'digifalk-mafia-pbbg-engine' ), 'primary', 'submit', false ); ?></div>
 			</form>
 			<?php
 		}
@@ -910,14 +910,15 @@ final class Admin {
 
 	public static function handle_settings(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_settings' );
-		$input    = (array) wp_unslash( $_POST['settings'] ?? array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// Every value is validated for its field type in DataTable::sanitize().
+		$input    = isset( $_POST['settings'] ) ? (array) map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_textarea_field' ) : array();
 		$section  = sanitize_key( wp_unslash( $_POST['section'] ?? 'core' ) );
 		$sections = self::settings_sections();
 		if ( ! isset( $sections[ $section ] ) ) {
-			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
+			wp_die( esc_html__( 'Access denied.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 		$values = Settings::all();
 		foreach ( $sections[ $section ]['fields'] as $key => $field ) {
@@ -947,9 +948,9 @@ final class Admin {
 		}
 		$notice   = sanitize_key( wp_unslash( $_GET['dfmg_notice'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$messages = array(
-			'saved'   => __( 'Saved.', 'mafia-pbbg-engine' ),
-			'deleted' => __( 'Deleted.', 'mafia-pbbg-engine' ),
-			'round'   => __( 'A new round has started.', 'mafia-pbbg-engine' ),
+			'saved'   => __( 'Saved.', 'digifalk-mafia-pbbg-engine' ),
+			'deleted' => __( 'Deleted.', 'digifalk-mafia-pbbg-engine' ),
+			'round'   => __( 'A new round has started.', 'digifalk-mafia-pbbg-engine' ),
 		);
 		if ( isset( $messages[ $notice ] ) ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $messages[ $notice ] ) . '</p></div>';

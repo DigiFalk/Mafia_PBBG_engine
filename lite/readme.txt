@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,11 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 2.2.0 =
+* Security: posted data is sanitized and all output is escaped where it is printed.
+* The text domain is now digifalk-mafia-pbbg-engine.
+* The old shortcode names [mafia_game] and [maffia_game] are removed; use [mafia_pbbg_engine].
 
 = 2.1.2 =
 * The plugin is now called DigiFalk Mafia PBBG Engine.

@@ -276,7 +276,7 @@ final class Installer {
 		}
 		$page_id = wp_insert_post(
 			array(
-				'post_title'   => __( 'Mafia Game', 'mafia-pbbg-engine' ),
+				'post_title'   => __( 'Mafia Game', 'digifalk-mafia-pbbg-engine' ),
 				'post_name'    => 'mafia-game',
 				'post_content' => '[mafia_pbbg_engine]',
 				'post_status'  => 'publish',

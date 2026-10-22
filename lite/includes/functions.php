@@ -81,3 +81,13 @@ function dfmg_avatar_url( $user_id ) {
 function dfmg_player_avatar_url( $user_id, $size = 64 ) {
 	return \DigiFalk\MafiaPBBGEngine\Avatar::display_url( (int) $user_id, (int) $size );
 }
+
+/**
+ * Tags and attributes the game may output: escape game HTML with
+ * wp_kses( $html, dfmg_allowed_html() ).
+ *
+ * @return array
+ */
+function dfmg_allowed_html() {
+	return \DigiFalk\MafiaPBBGEngine\Html::allowed();
+}

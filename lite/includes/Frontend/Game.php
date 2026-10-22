@@ -28,9 +28,6 @@ final class Game {
 
 	public static function init(): void {
 		add_shortcode( 'mafia_pbbg_engine', array( __CLASS__, 'shortcode' ) );
-		// Shortcode names of earlier versions.
-		add_shortcode( 'mafia_game', array( __CLASS__, 'shortcode' ) );
-		add_shortcode( 'maffia_game', array( __CLASS__, 'shortcode' ) );
 		add_action( 'admin_post_dfmg', array( __CLASS__, 'handle_action' ) );
 		add_action( 'admin_post_nopriv_dfmg', array( __CLASS__, 'handle_guest_action' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
@@ -71,7 +68,7 @@ final class Game {
 	 */
 	public static function print_mode_script(): void {
 		$default = 'dark' === Settings::get( 'appearance', 'theme' ) ? 'dark' : 'light';
-		echo wp_get_inline_script_tag( "(function(d){var m=null;try{m=localStorage.getItem('dfmg-mode')}catch(e){}if(m!=='light'&&m!=='dark'){m='" . $default . "'}d.documentElement.setAttribute('data-dfmg-mode',m)})(document);", array( 'id' => 'dfmg-mode' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		wp_print_inline_script_tag( "(function(d){var m=null;try{m=localStorage.getItem('dfmg-mode')}catch(e){}if(m!=='light'&&m!=='dark'){m='" . $default . "'}d.documentElement.setAttribute('data-dfmg-mode',m)})(document);", array( 'id' => 'dfmg-mode' ) );
 	}
 
 	/**
@@ -84,7 +81,7 @@ final class Game {
 		}
 		$sun  = '<svg class="dfmg-mode-toggle__sun" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
 		$moon = '<svg class="dfmg-mode-toggle__moon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a8.5 8.5 0 1 0 11.3 11.3z"/></svg>';
-		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'mafia-pbbg-engine' ) . '" title="' . esc_attr__( 'Light / dark', 'mafia-pbbg-engine' ) . '">' . $moon . $sun . '</button>';
+		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'digifalk-mafia-pbbg-engine' ) . '" title="' . esc_attr__( 'Light / dark', 'digifalk-mafia-pbbg-engine' ) . '">' . $moon . $sun . '</button>';
 	}
 
 	/**
@@ -115,12 +112,7 @@ final class Game {
 	}
 
 	private static function has_game_shortcode( string $content ): bool {
-		foreach ( array( 'mafia_pbbg_engine', 'mafia_game', 'maffia_game' ) as $tag ) {
-			if ( has_shortcode( $content, $tag ) ) {
-				return true;
-			}
-		}
-		return false;
+		return has_shortcode( $content, 'mafia_pbbg_engine' );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -140,7 +132,7 @@ final class Game {
 			$reserved = array_intersect( array_keys( $args ), (array) $GLOBALS['wp']->public_query_vars );
 			if ( $reserved ) {
 				/* translators: %s: query vars */
-				_doing_it_wrong( __METHOD__, esc_html( sprintf( __( 'Game links can\'t use the WordPress query vars: %s. Pick another name (for example "pg" instead of "paged").', 'mafia-pbbg-engine' ), implode( ', ', $reserved ) ) ), '1.10.1' );
+				_doing_it_wrong( __METHOD__, esc_html( sprintf( __( 'Game links can\'t use the WordPress query vars: %s. Pick another name (for example "pg" instead of "paged").', 'digifalk-mafia-pbbg-engine' ), implode( ', ', $reserved ) ) ), '1.10.1' );
 			}
 		}
 		if ( $route && self::DEFAULT_ROUTE !== $route ) {
@@ -240,10 +232,10 @@ final class Game {
 		$module   = $registry->get( $route ) ?: $registry->get( self::DEFAULT_ROUTE );
 
 		if ( ! $module ) {
-			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'mafia-pbbg-engine' ) . '</p>' );
+			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'digifalk-mafia-pbbg-engine' ) . '</p>' );
 		}
 		if ( $module->id() !== $route ) {
-			Flash::error( __( 'This page doesn\'t exist.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'This page doesn\'t exist.', 'digifalk-mafia-pbbg-engine' ) );
 		}
 
 		$module    = self::resolve( $c, $module );
@@ -284,15 +276,15 @@ final class Game {
 		$groups = apply_filters(
 			'dfmg_menu_groups',
 			array(
-				'general'   => __( 'General', 'mafia-pbbg-engine' ),
-				'crime'     => __( 'Crime', 'mafia-pbbg-engine' ),
-				'city'      => __( 'City', 'mafia-pbbg-engine' ),
-				'casino'    => __( 'Casino', 'mafia-pbbg-engine' ),
-				'murder'    => __( 'Murder', 'mafia-pbbg-engine' ),
-				'family'    => __( 'Family', 'mafia-pbbg-engine' ),
-				'money'     => __( 'Assets', 'mafia-pbbg-engine' ),
-				'premium'   => __( 'Premium', 'mafia-pbbg-engine' ),
-				'community' => __( 'Community', 'mafia-pbbg-engine' ),
+				'general'   => __( 'General', 'digifalk-mafia-pbbg-engine' ),
+				'crime'     => __( 'Crime', 'digifalk-mafia-pbbg-engine' ),
+				'city'      => __( 'City', 'digifalk-mafia-pbbg-engine' ),
+				'casino'    => __( 'Casino', 'digifalk-mafia-pbbg-engine' ),
+				'murder'    => __( 'Murder', 'digifalk-mafia-pbbg-engine' ),
+				'family'    => __( 'Family', 'digifalk-mafia-pbbg-engine' ),
+				'money'     => __( 'Assets', 'digifalk-mafia-pbbg-engine' ),
+				'premium'   => __( 'Premium', 'digifalk-mafia-pbbg-engine' ),
+				'community' => __( 'Community', 'digifalk-mafia-pbbg-engine' ),
 			)
 		);
 
@@ -348,15 +340,42 @@ final class Game {
 		exit;
 	}
 
+	/**
+	 * The posted form fields, sanitized. Fields that may hold formatted text (see the filter
+	 * dfmg_rich_text_fields) keep the HTML that is allowed in posts; all other fields are plain
+	 * text. Module actions validate the values they use (numbers, ids, choices).
+	 */
+	private static function posted_input(): array {
+		/**
+		 * Names of form fields that may hold formatted text.
+		 *
+		 * @param string[] $fields
+		 */
+		$rich  = (array) apply_filters( 'dfmg_rich_text_fields', array( 'bio', 'body', 'text' ) );
+		$input = array();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified by handle_action().
+		foreach ( array_keys( $_POST ) as $key ) {
+			$key = sanitize_key( $key );
+			if ( '' === $key || ! isset( $_POST[ $key ] ) ) {
+				continue;
+			}
+			$input[ $key ] = in_array( $key, $rich, true )
+				? map_deep( wp_unslash( $_POST[ $key ] ), 'wp_kses_post' )
+				: map_deep( wp_unslash( $_POST[ $key ] ), 'sanitize_text_field' );
+		}
+		// phpcs:enable
+		return $input;
+	}
+
 	public static function handle_action(): void {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified below.
 		$module_id = sanitize_key( wp_unslash( $_POST['module'] ?? '' ) );
 		$action    = sanitize_key( wp_unslash( $_POST['do'] ?? '' ) );
-		$input     = wp_unslash( $_POST );
+		$input     = self::posted_input();
 		// phpcs:enable
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $input['_dfmg_nonce'] ?? '' ), self::nonce_action( $module_id, $action ) ) ) {
-			Flash::error( __( 'Your session has expired, please try again.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'Your session has expired, please try again.', 'digifalk-mafia-pbbg-engine' ) );
 			self::redirect( 'core' === $module_id ? '' : $module_id );
 		}
 
@@ -380,13 +399,13 @@ final class Game {
 		$module   = $registry->get( $module_id );
 		$method   = 'action_' . str_replace( '-', '_', $action );
 		if ( ! $module || ! is_callable( array( $module, $method ) ) ) {
-			Flash::error( __( 'Unknown action.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'Unknown action.', 'digifalk-mafia-pbbg-engine' ) );
 			self::redirect( '' );
 		}
 
 		$resolved = self::resolve( $c, $module );
 		if ( $resolved->id() !== $module->id() ) {
-			Flash::error( __( 'You can\'t do that right now.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'You can\'t do that right now.', 'digifalk-mafia-pbbg-engine' ) );
 			self::redirect( $resolved->id() );
 		}
 
@@ -409,7 +428,7 @@ final class Game {
 				Flash::error( $result->get_error_message() );
 			} else {
 				/* translators: %s: character name */
-				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'mafia-pbbg-engine' ), $result->name ) );
+				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'digifalk-mafia-pbbg-engine' ), $result->name ) );
 			}
 		}
 		self::redirect( '' );
@@ -423,24 +442,24 @@ final class Game {
 		$config = Property::type( $type );
 		$route  = sanitize_key( $input['return'] ?? '' );
 		if ( ! $config ) {
-			Flash::error( __( 'This property doesn\'t exist.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'This property doesn\'t exist.', 'digifalk-mafia-pbbg-engine' ) );
 			self::redirect( $route );
 		}
 		$property = Property::get( $type, (int) $c->location_id );
 		if ( $property->is_owned() ) {
-			Flash::error( __( 'This property already has an owner.', 'mafia-pbbg-engine' ) );
+			Flash::error( __( 'This property already has an owner.', 'digifalk-mafia-pbbg-engine' ) );
 			self::redirect( $route );
 		}
 		$price = $property->buy_price();
 		if ( ! $c->spend( 'money', $price ) ) {
 			/* translators: %s: money */
-			Flash::error( sprintf( __( 'You need %s in cash.', 'mafia-pbbg-engine' ), Format::money( $price ) ) );
+			Flash::error( sprintf( __( 'You need %s in cash.', 'digifalk-mafia-pbbg-engine' ), Format::money( $price ) ) );
 			self::redirect( $route );
 		}
 		$property->transfer( $c->id() );
 		$c->log( 'property.buy', true, $price, $property->location_id() );
 		/* translators: 1: property, 2: city */
-		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'mafia-pbbg-engine' ), $property->label(), $c->location_name() ) );
+		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'digifalk-mafia-pbbg-engine' ), $property->label(), $c->location_name() ) );
 		self::redirect( $route );
 	}
 

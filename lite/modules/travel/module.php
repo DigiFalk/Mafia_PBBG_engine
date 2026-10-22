@@ -22,13 +22,13 @@ final class Travel extends Module {
 	const TIMER = 'travel';
 
 	public function title(): string {
-		return __( 'Airport', 'mafia-pbbg-engine' );
+		return __( 'Airport', 'digifalk-mafia-pbbg-engine' );
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Travel', 'mafia-pbbg-engine' ),
+				'label' => __( 'Travel', 'digifalk-mafia-pbbg-engine' ),
 				'group' => 'city',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -67,16 +67,16 @@ final class Travel extends Module {
 			}
 		}
 		if ( ! $dest ) {
-			$this->error( __( 'There are no flights to that destination.', 'mafia-pbbg-engine' ) );
+			$this->error( __( 'There are no flights to that destination.', 'digifalk-mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'You just landed. Wait until you\'re allowed to fly again.', 'mafia-pbbg-engine' ) );
+			$this->error( __( 'You just landed. Wait until you\'re allowed to fly again.', 'digifalk-mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', (int) $dest['travel_cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'A ticket costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $dest['travel_cost'] ) ) );
+			$this->error( sprintf( __( 'A ticket costs %s. You don\'t have that in cash.', 'digifalk-mafia-pbbg-engine' ), Format::money( $dest['travel_cost'] ) ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) Locations::get( $id )['travel_time'] ) ) {
@@ -87,7 +87,7 @@ final class Travel extends Module {
 		$c->log( 'travel', true, (int) $dest['travel_cost'], $id );
 		do_action( 'dfmg_travelled', $c, $id );
 		/* translators: %s: city */
-		$this->success( sprintf( __( 'Welcome to %s!', 'mafia-pbbg-engine' ), $dest['name'] ) );
+		$this->success( sprintf( __( 'Welcome to %s!', 'digifalk-mafia-pbbg-engine' ), $dest['name'] ) );
 	}
 }
 

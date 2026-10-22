@@ -3,6 +3,24 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.2.0
+
+- Changes asked by the WordPress.org plugin review:
+  - The text domain of the free plugin is `digifalk-mafia-pbbg-engine`, its slug on
+    WordPress.org. The WordPress.org zip contains the folder `digifalk-mafia-pbbg-engine`.
+  - Posted form fields are sanitized before a module action gets them: plain text, or the HTML
+    allowed in posts for formatted fields (`bio`, `body`, `text`; filter
+    `dfmg_rich_text_fields`). Admin settings and game data are sanitized as well.
+  - Everything the game echoes is escaped where it is printed, game screens included:
+    `wp_kses( $html, dfmg_allowed_html() )`.
+  - The old shortcode names `[mafia_game]` and `[maffia_game]` are gone; use
+    `[mafia_pbbg_engine]`.
+  - Author URI: https://github.com/DigiFalk.
+- For module makers: module pages can no longer contain `<script>`, `<style>` or `onclick`.
+  Use `wp_add_inline_script( 'dfmg-game', ... )` and `data-dfmg-confirm="…"` (see
+  docs/MODULES.md). Extended uses `data-dfmg-confirm` for the "Shoot" button. Update the premium
+  modules Avatar Maker (2.1.1) and Premium (2.1.0) together with this version.
+
 ## 2.1.2
 
 - The free plugin is called **DigiFalk Mafia PBBG Engine** in its plugin header and readme,

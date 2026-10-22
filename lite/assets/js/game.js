@@ -59,6 +59,13 @@
 			toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
 		}
 	}
+	// Buttons and links with data-dfmg-confirm="Question?" ask before they act.
+	document.addEventListener( 'click', function ( e ) {
+		var el = e.target.closest ? e.target.closest( '[data-dfmg-confirm]' ) : null;
+		if ( el && ! window.confirm( el.getAttribute( 'data-dfmg-confirm' ) ) ) {
+			e.preventDefault();
+		}
+	} );
 	document.addEventListener( 'click', function ( e ) {
 		var toggle = e.target.closest ? e.target.closest( '.dfmg-menu-toggle' ) : null;
 		if ( toggle ) {

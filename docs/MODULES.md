@@ -272,5 +272,14 @@ an element, for use in your own templates.
 
 * Always use `spend()` or a conditional `UPDATE ... WHERE x >= %d` when deducting, so nobody can go below zero by clicking fast.
 * Use `claim_cooldown()` for actions with a cooldown.
-* Escape all output (`esc_html`, `esc_attr`, `esc_url`); actions receive raw (unslashed) `$_POST` data.
+* Escape all output (`esc_html`, `esc_attr`, `esc_url`). HTML built by the game (buttons, forms,
+  icons) is echoed with `wp_kses( $html, dfmg_allowed_html() )`; the filter `dfmg_allowed_html`
+  adds tags or attributes.
+* The game screen is escaped as a whole as well, so a module page can't contain `<script>`,
+  `<style>` or `onclick` attributes. Add JavaScript with `wp_add_inline_script( 'dfmg-game', ... )`
+  (for example in `render()`), CSS with `wp_add_inline_style( 'dfmg-game', ... )`, and ask for
+  confirmation with `data-dfmg-confirm="Are you sure?"` on a button or link.
+* Actions receive the posted fields sanitized: plain text (`sanitize_text_field`), or the HTML
+  allowed in posts for fields named `bio`, `body` and `text` (filter `dfmg_rich_text_fields`).
+  Still validate every value you use (numbers, ids, choices).
 * When in doubt, look at a bundled module: `crimes` (simple), `bullet-factory` (property + cron), `families` (large).

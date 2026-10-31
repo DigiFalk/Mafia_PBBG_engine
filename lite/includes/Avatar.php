@@ -105,7 +105,7 @@ final class Avatar {
 
 	public static function profile_description( string $description, $user ): string {
 		if ( $user instanceof \WP_User && self::url( (int) $user->ID ) ) {
-			return __( 'This picture was uploaded on the game profile page and can be changed there.', 'digifalk-mafia-pbbg-engine' );
+			return esc_html__( 'This picture was uploaded on the game profile page and can be changed there.', 'digifalk-mafia-pbbg-engine' );
 		}
 		return $description;
 	}

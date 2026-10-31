@@ -264,9 +264,10 @@ final class Game {
 		if ( false === strpos( $html, 'dfmg-footer__credit' ) ) {
 			$html .= Credit::html();
 		}
-		// Follow the light/dark choice set on <html> (see print_mode_script()) before anything is painted.
-		$sync = self::theme_handles_mode() ? '' : wp_get_inline_script_tag( "(function(e){var m=document.documentElement.getAttribute('data-dfmg-mode');if(e&&m){e.classList.toggle('dfmg--dark',m==='dark')}})(document.currentScript&&document.currentScript.parentNode);" );
-		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $sync . $html . '</div>';
+		// The light/dark choice of the player is set on <html> (see print_mode_script()); the
+		// stylesheet follows it. The class is the look without that choice.
+		$html = '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
+		return wp_kses( $html, dfmg_allowed_html() );
 	}
 
 	/**

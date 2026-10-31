@@ -3,6 +3,15 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.2.1
+
+- Asked by the WordPress.org plugin review: the shortcodes `[mafia_pbbg_engine]` and
+  `[mpe_hud]`, the game elements in the theme header and footer and the Customizer preview
+  return HTML that is escaped with `wp_kses( $html, dfmg_allowed_html() )` as a last step.
+- The game no longer puts a small script inside the game for light and dark: the stylesheet
+  follows the choice on `<html data-dfmg-mode>` directly. The class `.dfmg--dark` still works
+  for module styles.
+
 ## 2.2.0
 
 - Changes asked by the WordPress.org plugin review:

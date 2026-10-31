@@ -186,6 +186,15 @@
 		}
 	} );
 	syncModeButtons();
+	// Styles of modules may use the class .dfmg--dark: follow the choice on <html> as well.
+	( function () {
+		var mode = document.documentElement.getAttribute( 'data-dfmg-mode' );
+		if ( mode ) {
+			Array.prototype.forEach.call( document.querySelectorAll( '.dfmg' ), function ( game ) {
+				game.classList.toggle( 'dfmg--dark', 'dark' === mode );
+			} );
+		}
+	} )();
 
 	// Customizer live preview: the game is re-rendered after layout changes.
 	document.addEventListener( 'DOMContentLoaded', function () {

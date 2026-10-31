@@ -8,7 +8,8 @@
  *    fine-tune the game through these optional palette slugs in theme.json:
  *    accent, surface, surface-2, border, muted, button, button-text.
  *    Text and icons use --dfmg-accent-text, which stays readable on the theme background.
- *  - Dark: the built-in dark look (.dfmg--dark).
+ *  - Dark: the built-in dark look: the player's choice on <html data-dfmg-mode="dark">, or
+ *    .dfmg--dark (the Appearance setting) when there is no choice.
  */
 .dfmg, .dfmg-hud, .dfmg-hud-group {
 	--dfmg-accent: var(--wp--preset--color--accent, var(--wp--preset--color--primary, var(--wp--preset--color--accent-1, #b8862b)));
@@ -48,7 +49,7 @@
 .dfmg-shell > :only-child { border-radius: var(--dfmg-radius); }
 
 /* Built-in dark appearance. */
-.dfmg.dfmg--dark {
+:root[data-dfmg-mode="dark"] .dfmg, :root:not([data-dfmg-mode]) .dfmg.dfmg--dark {
 	--dfmg-accent: #c9a24a;
 	--dfmg-accent-text: #c9a24a;
 	--dfmg-bg: #121417;
@@ -66,8 +67,8 @@
 	color: var(--dfmg-text);
 	border: 0;
 }
-.dfmg--dark a { color: var(--dfmg-accent-text); }
-.dfmg--dark .dfmg-bar em { text-shadow: 0 1px 2px #000; }
+:root[data-dfmg-mode="dark"] .dfmg a, :root:not([data-dfmg-mode]) .dfmg--dark a { color: var(--dfmg-accent-text); }
+:root[data-dfmg-mode="dark"] .dfmg .dfmg-bar em, :root:not([data-dfmg-mode]) .dfmg--dark .dfmg-bar em { text-shadow: 0 1px 2px #000; }
 .dfmg *, .dfmg *::before, .dfmg *::after { box-sizing: border-box; }
 .dfmg a { text-decoration: none; }
 .dfmg a:hover { text-decoration: underline; }
@@ -235,7 +236,7 @@
 	box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
 }
 .dfmg-hud-menu:not([open]) .dfmg-hud-menu__panel { display: none; }
-.dfmg--dark .dfmg-hud-menu__panel { background: var(--dfmg-panel); color: var(--dfmg-text); }
+:root[data-dfmg-mode="dark"] .dfmg .dfmg-hud-menu__panel, :root:not([data-dfmg-mode]) .dfmg--dark .dfmg-hud-menu__panel { background: var(--dfmg-panel); color: var(--dfmg-text); }
 .dfmg-zone--header-right .dfmg-hud-menu__panel, .dfmg-zone--footer-right .dfmg-hud-menu__panel { left: auto; right: 0; }
 .dfmg-footer .dfmg-hud-menu__panel, .mpet-footer .dfmg-hud-menu__panel, .site-footer .dfmg-hud-menu__panel { top: auto; bottom: calc(100% + 6px); }
 .dfmg-hud-menu__panel .dfmg-nav__group h4 { margin: 10px 12px 4px; }
@@ -551,7 +552,7 @@
 	box-shadow: 0 0 0 2px var(--wp--preset--color--base, #111);
 	font-size: calc(var(--dfmg-ring-size) * .4);
 }
-.dfmg--dark .dfmg-ring > .dfmg-hud-player__avatar { box-shadow: 0 0 0 2px var(--dfmg-bg); }
+:root[data-dfmg-mode="dark"] .dfmg .dfmg-ring > .dfmg-hud-player__avatar, :root:not([data-dfmg-mode]) .dfmg--dark .dfmg-ring > .dfmg-hud-player__avatar { box-shadow: 0 0 0 2px var(--dfmg-bg); }
 .dfmg-hud-player, .dfmg .dfmg-hud-player { gap: 10px; padding: 3px 14px 3px 3px; background: var(--dfmg-sheen), var(--dfmg-panel-2); box-shadow: var(--dfmg-shadow-sm); transition: border-color .2s var(--dfmg-ease), transform .2s var(--dfmg-ease); }
 .dfmg-hud-player:hover { transform: translateY(-1px); }
 .dfmg-hud-player__text { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }

@@ -53,7 +53,7 @@ final class Hud {
 		add_filter(
 			'mpet_render_header_element',
 			static function ( $html, $element, $context ) {
-				return 0 === strpos( (string) $element, 'game-' ) ? self::render( substr( $element, 5 ), 'popup' === $context ? 'stack' : 'bar', 'theme' ) : $html;
+				return 0 === strpos( (string) $element, 'game-' ) ? wp_kses( self::render( substr( $element, 5 ), 'popup' === $context ? 'stack' : 'bar', 'theme' ), dfmg_allowed_html() ) : $html;
 			},
 			10,
 			3
@@ -61,7 +61,7 @@ final class Hud {
 		add_filter(
 			'mpet_render_footer_element',
 			static function ( $html, $element ) {
-				return 0 === strpos( (string) $element, 'game-' ) ? self::render( substr( $element, 5 ), 'bar', 'theme' ) : $html;
+				return 0 === strpos( (string) $element, 'game-' ) ? wp_kses( self::render( substr( $element, 5 ), 'bar', 'theme' ), dfmg_allowed_html() ) : $html;
 			},
 			10,
 			2
@@ -412,6 +412,10 @@ final class Hud {
 		foreach ( array_map( 'trim', explode( ',', (string) $atts['element'] ) ) as $key ) {
 			$html .= self::render( sanitize_key( $key ), $context, 'shortcode' );
 		}
-		return $html ? '<div class="dfmg-hud-group dfmg-hud-group--' . esc_attr( $context ) . '">' . $html . '</div>' : '';
+		if ( '' === $html ) {
+			return '';
+		}
+		// Elements can come from other modules and themes: escape the whole result.
+		return wp_kses( '<div class="dfmg-hud-group dfmg-hud-group--' . esc_attr( $context ) . '">' . $html . '</div>', dfmg_allowed_html() );
 	}
 }

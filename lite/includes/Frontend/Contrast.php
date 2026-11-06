@@ -13,8 +13,6 @@
 
 namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\MafiaPBBGEngine\Settings;
-
 defined( 'ABSPATH' ) || exit;
 
 final class Contrast {
@@ -25,9 +23,8 @@ final class Contrast {
 	 * Inline CSS with --dfmg-accent-text, or '' when the theme's accent is fine (or unknown).
 	 */
 	public static function css(): string {
-		if ( 'dark' === Settings::get( 'appearance', 'theme' ) ) {
-			return '';
-		}
+		// Also with the built-in dark look: players can switch to light (the theme's colours).
+		// The dark colours set their own --dfmg-accent-text with a stronger selector.
 		// The Mafia PBBG Engine theme (Extended) has its own light and dark colours.
 		if ( 'mafia-pbbg-engine-theme' === get_template() ) {
 			return '';

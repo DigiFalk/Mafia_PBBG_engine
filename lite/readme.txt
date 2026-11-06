@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,7 +77,22 @@ No. This plugin does not send data to external services.
 
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
+== Screenshots ==
+
+1. The overview: rank progress, health, money, timers and the latest notifications.
+2. Crimes: the success chance grows the more often a player commits a crime.
+3. The garage: sell, crush, repair or ship stolen cars.
+4. The game in the colours of your theme (here Twenty Twenty-Five, light mode).
+5. Leaderboards for rank, wealth, crimes and breakouts.
+6. On a phone: the game menu folds away and everything fits the screen.
+7. The admin dashboard: players, money in circulation, actions per day and the top players.
+8. Switch every game feature (module) on or off.
+
 == Changelog ==
+
+= 2.2.2 =
+* Fixed: with the built-in dark look, players who switch to light now get readable accent colours too.
+* Fixed: on phones, long names and amounts on the overview are no longer broken off halfway.
 
 = 2.2.1 =
 * Security: the HTML returned by the shortcodes is escaped as a last step.

@@ -3,6 +3,17 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.2.2
+
+- Fixed: when the admin chose the built-in dark look and a player switches to light (the
+  theme's colours), the accent colour for text and icons is made readable as well, for
+  example the rank name with Twenty Twenty-Five.
+- Game elements inside a dark game (header, game menu) use the dark colours of the game
+  instead of the theme's.
+- Fixed: on phones the overview shows the avatar above the name and the icon above each
+  value, so long names and amounts are not broken off halfway.
+- The readme has screenshots, and the Author URI points to digifalk.com again.
+
 ## 2.2.1
 
 - Asked by the WordPress.org plugin review: the shortcodes `[mafia_pbbg_engine]` and

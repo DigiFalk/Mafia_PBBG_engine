@@ -67,6 +67,11 @@
 	color: var(--dfmg-text);
 	border: 0;
 }
+/* Game elements inside a dark game use its dark colours, not the theme's. */
+:root[data-dfmg-mode="dark"] .dfmg :is(.dfmg-hud, .dfmg-hud-group), :root:not([data-dfmg-mode]) .dfmg--dark :is(.dfmg-hud, .dfmg-hud-group) {
+	--dfmg-accent: inherit; --dfmg-accent-text: inherit; --dfmg-bg: inherit; --dfmg-text: inherit; --dfmg-panel: inherit; --dfmg-panel-2: inherit;
+	--dfmg-border: inherit; --dfmg-muted: inherit; --dfmg-btn-bg: inherit; --dfmg-btn-text: inherit; --dfmg-ghost-text: inherit; --dfmg-font: inherit;
+}
 :root[data-dfmg-mode="dark"] .dfmg a, :root:not([data-dfmg-mode]) .dfmg--dark a { color: var(--dfmg-accent-text); }
 :root[data-dfmg-mode="dark"] .dfmg .dfmg-bar em, :root:not([data-dfmg-mode]) .dfmg--dark .dfmg-bar em { text-shadow: 0 1px 2px #000; }
 .dfmg *, .dfmg *::before, .dfmg *::after { box-sizing: border-box; }
@@ -775,7 +780,16 @@
 	.dfmg-main > .dfmg-table tbody tr:last-child > * { border-bottom: 0; }
 	.dfmg-nav li a:hover { transform: none; }
 }
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+	/* Phones: the avatar above the name, the icon above the value, so names and amounts
+	   are not broken off halfway. */
+	.dfmg-hero__who { flex-direction: column; align-items: flex-start; gap: 12px; }
+	.dfmg .dfmg-hero__name { font-size: clamp(1.25em, 7vw, 1.7em); overflow-wrap: normal; }
+	.dfmg-tile { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+	.dfmg-tile__icon { grid-row: auto; }
+	.dfmg-tile__value { overflow-wrap: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-width: 340px) {
 	.dfmg-tiles { grid-template-columns: 1fr; }
 }
 
